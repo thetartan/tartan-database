@@ -3,18 +3,19 @@
 Catalogue
 http://www.house-of-tartan.scotland.net/house/a.asp // b.asp, c.asp, etc.
 Parse <a onclick="Frm('<digits>'">Name of tartan</a>
-```bash
-./house.sh
-```
 
 Single tartan
 http://www.house-of-tartan.scotland.net/house/TartanViewjs.asp?colr=Def&tnam=<number from catalogue>
 Parse <canvas id="tartanPatch"> element, use `tabulation` and `pallet` attributes
 
-# Tartans authority
-http://www.tartansauthority.com/tartan-ferret/tartans-a-to-z/?lt=A
-Need VIP access to view threadcount.
+```bash
+./house.sh
+```
 
 # Weddslist
 http://www.weddslist.com/tartans/links.html
-Has a weird syntax, but most easely parsed
+Has a weird syntax, but can be easely parsed
+
+# Tartans authority
+http://www.tartansauthority.com/tartan-ferret/tartans-a-to-z/?lt=A
+Need VIP access to view threadcount.
