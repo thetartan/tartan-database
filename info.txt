@@ -16,6 +16,9 @@ Parse <canvas id="tartanPatch"> element, use `tabulation` and `pallet` attribute
 http://www.weddslist.com/tartans/links.html
 Has a weird syntax, but can be easely parsed
 
+# Thomas Insel's database
+http://www.tinsel.org/tinsel/Java/Tartan/setts.txt
+
 # Tartans authority
 http://www.tartansauthority.com/tartan-ferret/tartans-a-to-z/?lt=A
 Need VIP access to view threadcount.

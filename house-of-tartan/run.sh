@@ -32,6 +32,8 @@ echo 'House of tartans';
 | grep -oP "<a\s+href=\"alpha.htm\"\s+onClick=\"Frm\('\d+'\)\">.+?<\/a>" \
 | sed -r "s|.*Frm.{2}([0-9]+).*>.*|\1|" \
 | (
+  # Add headers
+  echo "\"ID\", \"Name\", \"P-pivot, R-repeat\", \"Colors\", \"Threadcount\"";
   while read id
   do
     url=`echo ${id} | sed -r "s|([0-9]+).*|http://www.house-of-tartan.scotland.net/house/TartanViewjs.asp?colr=Def\&tnam=\1|"`;
