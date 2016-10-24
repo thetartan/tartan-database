@@ -42,7 +42,7 @@
           }
         ]
       },
-      "url": "https://github.com/kravets-levko/tartan-database/raw/master/data.csv",
+      "path": "data.csv",
       "format": "CSV",
       "mediatype": "text/csv",
       "bytes": 0
