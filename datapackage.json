@@ -1,0 +1,51 @@
+{
+  "name": "tartans-from-different-sources",
+  "title": "Tartans from different sources",
+  "description": "Tartan threadcounts retrieved from different public sources.",
+  "version": "0.1.0",
+  "author": "Levko Kravets <levko.ne@gmail.com>",
+  "resources": [
+    {
+      "name": "unified-database",
+      "title": "Unified Database",
+      "schema": {
+        "fields": [
+          {
+            "name": "Source",
+            "title": "Source",
+            "type": "string",
+            "format": "default"
+          },
+          {
+            "name": "SourceID",
+            "title": "Source ID",
+            "type": "string",
+            "format": "default"
+          },
+          {
+            "name": "Category",
+            "title": "Category",
+            "type": "string",
+            "format": "default"
+          },
+          {
+            "name": "Name",
+            "title": "Name",
+            "type": "string",
+            "format": "default"
+          },
+          {
+            "name": "Threadcount",
+            "title": "Threadcount",
+            "type": "string",
+            "format": "default"
+          }
+        ]
+      },
+      "url": "https://github.com/kravets-levko/tartan-database/raw/master/data.csv",
+      "format": "CSV",
+      "mediatype": "text/csv",
+      "bytes": 0
+    }
+  ]
+}
