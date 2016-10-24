@@ -16,7 +16,12 @@
       fi
       source="House of Tartan";
       category=`echo ${name} | sed -r "s|^.+\s+([a-zA-Z/]+)\s+Tartan$|\1|"`;
-      name=`echo ${name} | sed -r "s|^(.+)\s+[a-zA-Z/]+\s+Tartan$|\1|"`;
+      if [ "${category}" == "${name}" ]
+      then
+        category="";
+      else
+        name=`echo ${name} | sed -r "s|^(.+)\s+[a-zA-Z/]+\s+Tartan$|\1|"`;
+      fi
       echo "\"${source}\", \"${id}\", \"${category}\", \"${name}\", \"${palette} ${sett}\"";
     done
     IFS=$prevIFS
