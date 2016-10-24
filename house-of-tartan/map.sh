@@ -15,8 +15,9 @@
         sett=`echo "${sett}" | sed -r "s|^\s*([a-zA-Z]*)([\sa-zA-Z0-9]+[a-zA-Z])([0-9]+)\s*$|\1/\2/\3|"`;
       fi
       source="House of Tartan";
-      category="";
-      echo "\"${source}\" \"${id}\" \"${category}\" \"${name}\" \"${palette} ${sett}\"";
+      category=`echo ${name} | sed -r "s|^.+\s+([a-zA-Z]+)\s+Tartan$|\1|"`;
+      name=`echo ${name} | sed -r "s|^(.+)\s+[a-zA-Z]+\s+Tartan$|\1|"`;
+      echo "\"${source}\", \"${id}\", \"${category}\", \"${name}\", \"${palette} ${sett}\"";
     done
     IFS=$prevIFS
   )

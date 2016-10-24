@@ -26,7 +26,7 @@
       done
     )
   done
-) > raw.csv
+) > grabbed.csv
 
 echo "Done.";
 exit 0;

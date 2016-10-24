@@ -42,7 +42,7 @@ echo 'House of tartans';
     sett=`echo ${html} | grep -oP "Tartan\.setup\(.+?\);" | sed -r "s|Tartan\.setup\((\".*?\"),\s*(\".*?\"),\s*\"(.*?)\"\);|\3, \2, \1|"`;
     echo "${id}, \"${name}\", ${sett}";
   done
-) > raw.csv
+) > grabbed.csv
 
 echo "Done.";
 
