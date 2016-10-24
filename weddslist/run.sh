@@ -21,6 +21,7 @@
     | (
       while read sett
       do
+        sett=`echo ${sett} | sed -r "s|^([^\[]*)\[?(.*)$|\1\2|"`;
         echo "\"${group}\", ${sett}";
       done
     )
