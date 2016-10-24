@@ -26,7 +26,7 @@
       done
     )
   done
-) > data.csv
+) > raw.csv
 
 echo "Done.";
 exit 0;
