@@ -1,7 +1,7 @@
 {
   "name": "tartans-from-different-sources",
   "title": "Tartans from different sources",
-  "description": "Tartan threadcounts retrieved from different public sources.",
+  "description": "Tartan threadcounts retrieved from different public sources:\r\n* [House of Tartan](http://www.house-of-tartan.scotland.net/)\r\n* [Robert Bradford's database](http://www.weddslist.com/cgi-bin/tartans/pg.pl?source=rb)\r\n* [Thomas Insel's database](http://www.weddslist.com/cgi-bin/tartans/pg.pl?source=tinsel)\r\n* [Database by Jim McBeath & Joseph Shelby](http://www.weddslist.com/cgi-bin/tartans/pg.pl?source=x)\r\n* [Patterns from the Scottish Tartans Society](http://www.weddslist.com/cgi-bin/tartans/pg.pl?source=sts)\r\n* [The Laing Family Tartan; The Traill Family Tartan; Ruxton Tartans](http://www.weddslist.com/cgi-bin/tartans/pg.pl?source=misc)",
   "version": "0.1.0",
   "author": "Levko Kravets <levko.ne@gmail.com>",
   "resources": [
