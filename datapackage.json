@@ -1,51 +1,81 @@
 {
-  "name": "tartans-from-different-sources",
-  "title": "Tartans from different sources",
-  "description": "Tartan threadcounts retrieved from different public sources:\r\n* [House of Tartan](http://www.house-of-tartan.scotland.net/)\r\n* [Robert Bradford's database](http://www.weddslist.com/cgi-bin/tartans/pg.pl?source=rb)\r\n* [Thomas Insel's database](http://www.weddslist.com/cgi-bin/tartans/pg.pl?source=tinsel)\r\n* [Database by Jim McBeath & Joseph Shelby](http://www.weddslist.com/cgi-bin/tartans/pg.pl?source=x)\r\n* [Patterns from the Scottish Tartans Society](http://www.weddslist.com/cgi-bin/tartans/pg.pl?source=sts)\r\n* [The Laing Family Tartan; The Traill Family Tartan; Ruxton Tartans](http://www.weddslist.com/cgi-bin/tartans/pg.pl?source=misc)",
-  "version": "0.1.0",
   "author": "Levko Kravets <levko.ne@gmail.com>",
+  "description": "Tartan threadcounts retrieved from different public sources:\r\n* [House of Tartan](http://www.house-of-tartan.scotland.net/)\r\n* [Robert Bradford's database](http://www.weddslist.com/cgi-bin/tartans/pg.pl?source=rb)\r\n* [Thomas Insel's database](http://www.weddslist.com/cgi-bin/tartans/pg.pl?source=tinsel)\r\n* [Database by Jim McBeath & Joseph Shelby](http://www.weddslist.com/cgi-bin/tartans/pg.pl?source=x)\r\n* [Patterns from the Scottish Tartans Society](http://www.weddslist.com/cgi-bin/tartans/pg.pl?source=sts)\r\n* [The Laing Family Tartan; The Traill Family Tartan; Ruxton Tartans](http://www.weddslist.com/cgi-bin/tartans/pg.pl?source=misc)",
+  "name": "tartans-from-different-sources",
   "resources": [
     {
-      "name": "unified-database",
-      "title": "Unified Database",
+      "bytes": 1792252,
+      "format": "CSV",
+      "mediatype": "text/csv",
+      "name": "database",
+      "path": "database.csv",
       "schema": {
         "fields": [
           {
-            "name": "Source",
+            "format": "default",
+            "name": "source",
             "title": "Source",
-            "type": "string",
-            "format": "default"
+            "type": "string"
           },
           {
-            "name": "SourceID",
+            "format": "default",
+            "name": "source-id",
             "title": "Source ID",
-            "type": "string",
-            "format": "default"
+            "type": "string"
           },
           {
-            "name": "Category",
+            "format": "default",
+            "name": "category",
             "title": "Category",
-            "type": "string",
-            "format": "default"
+            "type": "string"
           },
           {
-            "name": "Name",
+            "format": "default",
+            "name": "name",
             "title": "Name",
-            "type": "string",
-            "format": "default"
+            "type": "string"
           },
           {
-            "name": "Threadcount",
+            "format": "default",
+            "name": "palette",
+            "title": "Palette",
+            "type": "string"
+          },
+          {
+            "format": "default",
+            "name": "threadcount",
             "title": "Threadcount",
-            "type": "string",
-            "format": "default"
+            "type": "string"
+          },
+          {
+            "format": "default",
+            "name": "overview",
+            "title": "Overview",
+            "type": "string"
+          },
+          {
+            "format": "default",
+            "name": "comment",
+            "title": "Comment",
+            "type": "string"
+          },
+          {
+            "format": "default",
+            "name": "copyright",
+            "title": "Copyright",
+            "type": "string"
+          },
+          {
+            "format": "default",
+            "name": "update-date",
+            "title": "Update date",
+            "type": "string"
           }
         ]
       },
-      "path": "data.csv",
-      "format": "CSV",
-      "mediatype": "text/csv",
-      "bytes": 841727
+      "title": "Database"
     }
-  ]
+  ],
+  "title": "Tartans from different sources",
+  "version": "0.2.5"
 }
