@@ -117,10 +117,14 @@ def print_csv_row(row):
 
 
 def normalize_palette(value):
-    return '; '.join(map(
+    result = map(
         lambda v: v[0].upper() + '#' + v[1].lower() + ' ' + v[2],
         re_normalize_palette.findall(value)
-    )) + ';'
+    )
+    if len(result) > 0:
+        result.append('')
+
+    return '; '.join(result)
 
 
 def normalize_threadcount(value, reflect=False):
