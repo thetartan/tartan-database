@@ -3,12 +3,11 @@ import datetime
 import httplib
 import re
 import json
+import csv
 from HTMLParser import HTMLParser
 html = HTMLParser()
 
 # Predefined things
-now = datetime.datetime.now().strftime("%Y/%m/%d %H:%M:%S")
-
 host = 'www.house-of-tartan.scotland.net'
 
 re_extract_ids = re.compile(
@@ -75,6 +74,10 @@ class Colors:
     UNDERLINE = '\033[4m'
 
 
+def now():
+    return datetime.datetime.now().strftime("%Y/%m/%d %H:%M:%S")
+
+
 def cleanup_str(value):
     value = html.unescape(value)
     value = re.sub('\s+', ' ', value, flags=re.IGNORECASE)
@@ -104,9 +107,13 @@ def log_url(url, prefix='', suffix=''):
 def print_csv_row(row):
     data = []
     for c in csv_column_order:
-        data.append(u'"' + unicode(row[c]) + u'"')
-    data = u', '.join(data).encode('utf-8')
-    sys.stdout.write(data + '\n')
+        data.append(unicode(row[c]).encode('utf-8'))
+    writer = csv.writer(
+        sys.stdout,
+        delimiter=',', quotechar='"', quoting=csv.QUOTE_ALL,
+        escapechar='\\', doublequote=True
+    )
+    writer.writerow(data)
 
 
 def normalize_palette(value):
@@ -178,7 +185,7 @@ def parse_tartan(tartan_id):
         'overview': '',
         'comment': '',
         'copyright': '',
-        'updated': now
+        'updated': now()
     }
 
     # Parse attributes

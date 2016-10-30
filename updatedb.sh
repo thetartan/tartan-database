@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+echo "Parse data..."
+/usr/bin/env python house-of-tartan.py > house-of-tartan.csv
+/usr/bin/env python weddslist.py > weddslist.csv
+
 echo "Merge database files..."
 (
   cat house-of-tartan.csv
