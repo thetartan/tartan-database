@@ -4,7 +4,7 @@
   "name": "tartans-from-different-sources",
   "resources": [
     {
-      "bytes": 1753591,
+      "bytes": 2462006,
       "format": "CSV",
       "mediatype": "text/csv",
       "name": "database",
@@ -27,6 +27,12 @@
             "format": "default",
             "name": "category",
             "title": "Category",
+            "type": "string"
+          },
+          {
+            "format": "default",
+            "name": "category-id",
+            "title": "Category ID",
             "type": "string"
           },
           {
@@ -67,6 +73,12 @@
           },
           {
             "format": "default",
+            "name": "source-url",
+            "title": "Source URL",
+            "type": "string"
+          },
+          {
+            "format": "default",
             "name": "update-date",
             "title": "Update date",
             "type": "string"
@@ -77,5 +89,5 @@
     }
   ],
   "title": "Tartans from different sources",
-  "version": "0.2.11"
+  "version": "0.2.15"
 }

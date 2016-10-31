@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 
 echo "Parse data..."
-/usr/bin/env python house-of-tartan.py > house-of-tartan.csv
-/usr/bin/env python weddslist.py > weddslist.csv
+/usr/bin/env python sources/house-of-tartan.py > data/house-of-tartan.csv
+/usr/bin/env python sources/weddslist.py > data/weddslist.csv
 
 echo "Merge database files..."
 (
-  cat house-of-tartan.csv
-  tail -n +2 weddslist.csv
+  cat data/house-of-tartan.csv
+  tail -n +2 data/weddslist.csv
 ) > database.csv
 
 echo "Updating datapackage.json file..."
