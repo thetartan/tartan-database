@@ -10,6 +10,8 @@ html = HTMLParser()
 # Predefined things
 host = 'www.house-of-tartan.scotland.net'
 
+bom = '\xEF\xBB\xBF'
+
 re_extract_ids = re.compile(
     'onclick="Frm\(\'([0-9]+)\'\)"',
     re.IGNORECASE
@@ -221,6 +223,7 @@ def main():
     header = Colors.HEADER + 'House of Tartan (' + host + ')' + Colors.ENDC
     sys.stderr.write(header + '\n')
     sys.stderr.write(Colors.OKBLUE + 'Started...' + Colors.ENDC + '\n')
+    sys.stdout.write(bom)
     print_csv_row(csv_headers)
     for tartan_id in parse_ids():
         print_csv_row(parse_tartan(tartan_id))

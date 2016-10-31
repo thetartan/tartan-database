@@ -9,6 +9,8 @@ html = HTMLParser()
 # Predefined things
 host = 'www.weddslist.com'
 
+bom = '\xEF\xBB\xBF'
+
 re_extract_tartans = re.compile(
     '<option\s+value="([^"]*)">([^<]*)',
     re.IGNORECASE)
@@ -208,6 +210,7 @@ def main():
     header = Colors.HEADER + 'Weddslist (' + host + ')' + Colors.ENDC
     sys.stderr.write(header + '\n')
     sys.stderr.write(Colors.OKBLUE + 'Started...' + Colors.ENDC + '\n')
+    sys.stdout.write(bom)
     print_csv_row(csv_headers)
     for category in categories:
         for row in parse_tartans(category[0], category[1]):
