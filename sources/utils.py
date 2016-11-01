@@ -108,7 +108,7 @@ def parse_category(name, delimiter='; '):
         else:
             break
     result.reverse()
-    result = sorted(result)
+    result = sorted(list(set(result)))
     return delimiter.join(result)
 
 
