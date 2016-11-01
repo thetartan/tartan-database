@@ -59,7 +59,8 @@ remap_dictionary = {
     'artefact': 'artifact',
     'assoc': 'association',
     'regiment': 'regimental',
-    'univ': 'universal'
+    'univ': 'universal',
+    'sports': 'sport',
 }
 
 allowed_categories = [
