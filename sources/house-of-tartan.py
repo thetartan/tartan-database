@@ -16,10 +16,6 @@ re_extract_pattern = re.compile(
     'Tartan\.setup\((".*")\);',
     re.IGNORECASE | re.DOTALL)
 
-re_extract_category = re.compile(
-    '\s+([a-z][-/a-z0-9]+)(\s+Weavers)?\s+Tartan$',
-    re.IGNORECASE | re.DOTALL)
-
 re_normalize_palette = re.compile(
     '([a-z]+)=([0-9a-f]{6})([a-z\s()]*)[;,]',
     re.IGNORECASE | re.DOTALL
@@ -104,11 +100,7 @@ def parse_tartan(connection, tartan_id):
         result[attr_map[item[0]]] = utils.cleanup_str(item[1])
 
     # Parse category
-    category = re_extract_category.search(result['name'])
-    if category:
-        result['category'] = category.group(1)
-        if not re.search('^[A-Z].+$', result['category']):
-            result['category'] = ''
+    result['category'] = utils.parse_category(result['name'])
 
     # Parse pattern components
     pattern = re_extract_pattern.search(data)

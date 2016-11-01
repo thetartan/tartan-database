@@ -43,6 +43,72 @@ csv_column_order = [
 ]
 
 
+# Used to parse category from name
+
+re_words = re.compile('[a-z]{3,}', re.IGNORECASE)
+
+stop_words = ['the', 'for', 'and']  # Two-letter words ignored by regex
+
+remap_dictionary = {
+    'comemmorative': 'commemorative',
+    'commemmorative': 'commemorative',
+    'com': 'commemorative',
+    'comm': 'commemorative',
+    'commem': 'commemorative',
+    'schools': 'school',
+    'artefact': 'artifact',
+    'assoc': 'association',
+    'regiment': 'regimental'
+}
+
+allowed_categories = [
+    # Administrative
+    'city', 'county', 'district', 'state',
+    # Category
+    'ancient', 'artifact',  'commemorative', 'corporate', 'dance', 'design',
+    'dress', 'fancy', 'fashion', 'general', 'hunting', 'plaid', 'portrait',
+    'universal', 'gathering',
+    # Activity and organizations
+    'band', 'club', 'national', 'international', 'regimental', 'royal',
+    'school', 'trade', 'sport', 'university', 'weavers', 'academy',
+    'association',
+    # Person
+    'clan', 'family', 'name', 'personal',
+]
+
+
+def remap_word(word):
+    while True:
+        new = remap_dictionary.get(word, None)
+        if new is None:
+            break
+        word = new
+    return word
+
+
+def extract_words(value):
+    words = re_words.findall(value.lower())
+    words.reverse()
+    if (len(words) > 0) and (words[0] == 'tartan'):
+        del words[0]
+    else:
+        words = []
+    return filter(len, [remap_word(x) for x in words if x not in stop_words])
+
+
+def parse_category(name, delimiter='; '):
+    words = extract_words(name)
+    result = []
+    for word in words:
+        if word in allowed_categories:
+            result.append(word.title())
+        else:
+            break
+    result.reverse()
+    result = sorted(result)
+    return delimiter.join(result)
+
+
 # Utilities
 
 
