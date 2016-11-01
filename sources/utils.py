@@ -58,12 +58,13 @@ remap_dictionary = {
     'schools': 'school',
     'artefact': 'artifact',
     'assoc': 'association',
-    'regiment': 'regimental'
+    'regiment': 'regimental',
+    'univ': 'universal'
 }
 
 allowed_categories = [
     # Administrative
-    'city', 'county', 'district', 'state',
+    'city', 'county', 'district', 'state', 'country',
     # Category
     'ancient', 'artifact',  'commemorative', 'corporate', 'dance', 'design',
     'dress', 'fancy', 'fashion', 'general', 'hunting', 'plaid', 'portrait',
@@ -99,6 +100,8 @@ def extract_words(value):
 def parse_category(name, delimiter='; '):
     words = extract_words(name)
     result = []
+    if (len(words) > 0) and (words[0] not in allowed_categories):
+        del words[0]
     for word in words:
         if word in allowed_categories:
             result.append(word.title())

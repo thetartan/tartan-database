@@ -4,7 +4,7 @@
   "name": "tartans-from-different-sources",
   "resources": [
     {
-      "bytes": 2465108,
+      "bytes": 2465316,
       "format": "CSV",
       "mediatype": "text/csv",
       "name": "database",
@@ -89,5 +89,5 @@
     }
   ],
   "title": "Tartans from different sources",
-  "version": "0.2.17"
+  "version": "0.2.18"
 }
