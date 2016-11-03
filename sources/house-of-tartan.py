@@ -101,6 +101,8 @@ def parse_tartan(connection, tartan_id):
 
     # Parse category
     result['category'] = utils.parse_category(result['name'])
+    if result['category'] == '':
+        result['category'] = 'Other'
 
     # Parse pattern components
     pattern = re_extract_pattern.search(data)
