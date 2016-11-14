@@ -12,8 +12,8 @@ own subfolder. Raw/unparsed data can be found in `storage` directory.
 ## Requirements
 
 - Python 2.7
-- `requests` package
-- `Pillow` package (for Scottish Tartans Authority)
+- `requests` library
+- `Pillow` library (for Scottish Tartans Authority)
 
 ## Usage
 
