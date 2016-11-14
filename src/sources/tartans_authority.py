@@ -40,8 +40,6 @@ re_color_names = re.compile(
     re.IGNORECASE
 )
 
-re_words = re.compile('[a-z]{3,}', re.IGNORECASE)
-
 
 def extract_colors(filename):
     result = []
@@ -94,42 +92,11 @@ def normalize_threadcount(value, reflect=False):
     return ' // '.join(filter(len, result)).upper()
 
 
-stop_words = ['the', 'for', 'and']  # Two-letter words ignored by regex
-
-remap_dictionary = {
-    'comemmorative': 'commemorative',
-    'commemmorative': 'commemorative',
-    'com': 'commemorative',
-    'comm': 'commemorative',
-    'commem': 'commemorative',
-    'schools': 'school',
-    'artefact': 'artifact',
-    'assoc': 'association',
-    'regiment': 'regimental',
-    'univ': 'universal',
-    'sports': 'sport',
-}
-
-
-def remap_word(word):
-    while True:
-        new = remap_dictionary.get(word, None)
-        if new is None:
-            break
-        word = new
-    return word
-
-
-def extract_words(value):
-    words = re_words.findall(value.lower())
-    return map(
-        lambda v: v.title(),
-        filter(len, [remap_word(x) for x in words if x not in stop_words])
-    )
-
-
 def parse_category(value, delimiter='; '):
-    result = sorted(list(set(extract_words(value))))
+    result = map(
+        lambda v: v.title(),
+        sorted(list(set(utils.extract_words(value))))
+    )
     return delimiter.join(result)
 
 
@@ -196,6 +163,8 @@ class TartansAuthority(Source):
     host = 'http://www.tartansauthority.com'
     username = 'pebox@stromox.com'
     password = 'q2222'
+
+    url = 'http://www.tartansauthority.com/'
 
     session = None
 

@@ -3,6 +3,8 @@ import sys
 import json
 import log
 import csvfile as csv
+import datapackage
+import utils
 
 __dir__ = os.path.dirname(os.path.abspath(__file__))
 
@@ -20,7 +22,9 @@ class Source(object):
 
     folders = []  # folders to be created automatically
 
-    headers = []
+    headers = [] # CSV file headers
+
+    url = None
 
     def __init__(self):
         self.storage = os.path.realpath(os.path.join(
@@ -135,6 +139,8 @@ class Source(object):
                 if isinstance(write, basestring) else write
             if len(result) > 0:
                 csv.Writer(self.headers, write).write(result)
+            if write.name:
+                self.update_datapackage(write.name)
 
         log.newline()
         log.subheader('Report:')
@@ -151,3 +157,41 @@ class Source(object):
         log.finished()
 
         return result
+
+    def update_datapackage(self, datafile='data.csv'):
+        try:
+            package = json.loads(self.file_get('datapackage.json'))
+        except (IOError, ValueError):
+            package = {}
+
+        package['author'] = package.get(
+            'author', os.environ.get('DATASET_AUTHOR', '')
+        )
+        package['title'] = package.get('title', self.name + ' Tartan Database')
+        package['name'] = package.get(
+            'name', datapackage.title_to_name(package['title'])
+        )
+
+        url = self.url if isinstance(self.url, basestring) else ''
+        url = ' (' + url + ')' if url != '' else ''
+        package['description'] = package.get(
+            'description',
+            'Database of tartan threadcounts from ' + self.name + url
+        )
+
+        resource = datapackage.create_resource(
+            self.realpath(datafile)
+        )
+        prefix = utils.commonprefix([
+            resource['path'], self.realpath('datapackage.json')
+        ])
+        resource['path'] = os.path.relpath(resource['path'], prefix + '/')
+        package['resources'] = [resource]
+
+        package['version'] = datapackage.bump_version(
+            package.get('version', os.environ.get('DATASET_VERSION', '0.0.0'))
+        )
+
+        self.file_put('datapackage.json', json.dumps(
+            package, sort_keys=True, indent=2, separators=(',', ': ')
+        ))

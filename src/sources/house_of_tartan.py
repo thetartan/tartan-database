@@ -38,24 +38,6 @@ attr_map = {
 
 # Used to parse category from name
 
-re_words = re.compile('[a-z]{3,}', re.IGNORECASE)
-
-stop_words = ['the', 'for', 'and']  # Two-letter words ignored by regex
-
-remap_dictionary = {
-    'comemmorative': 'commemorative',
-    'commemmorative': 'commemorative',
-    'com': 'commemorative',
-    'comm': 'commemorative',
-    'commem': 'commemorative',
-    'schools': 'school',
-    'artefact': 'artifact',
-    'assoc': 'association',
-    'regiment': 'regimental',
-    'univ': 'universal',
-    'sports': 'sport',
-}
-
 allowed_categories = [
     # Administrative
     'city', 'county', 'district', 'state', 'country',
@@ -72,25 +54,8 @@ allowed_categories = [
 ]
 
 
-def remap_word(word):
-    while True:
-        new = remap_dictionary.get(word, None)
-        if new is None:
-            break
-        word = new
-    return word
-
-
-def extract_words(value):
-    words = re_words.findall(value.lower())
-    words.reverse()
-    if (len(words) > 0) and (words[0] == 'tartan'):
-        del words[0]
-    return filter(len, [remap_word(x) for x in words if x not in stop_words])
-
-
 def parse_category(name, delimiter='; '):
-    words = extract_words(name)
+    words = utils.extract_words(name)
     result = []
     if (len(words) > 0) and (words[0] not in allowed_categories):
         del words[0]
@@ -155,6 +120,7 @@ class HouseOfTartan(Source):
     ]
 
     host = 'http://www.house-of-tartan.scotland.net'
+    url = 'http://www.house-of-tartan.scotland.net/'
 
     def get_items(self):
         result = []

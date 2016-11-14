@@ -1,13 +1,14 @@
-import json
 import ntpath
-import sys
 import re
 import os
 import csv
+import utils
 
 
 def get_schema_fields(filename):
     with open(filename) as f:
+        if f.read(3) != utils.BOM:
+            f.seek(0)
         reader = csv.reader(
             f, delimiter=',', quotechar='"', quoting=csv.QUOTE_ALL,
             skipinitialspace=True
@@ -51,18 +52,3 @@ def bump_version(version):
     version = map(int, version.split('.'))
     version[-1] += 1
     return '.'.join(map(str, version))
-
-
-def main(data_filename):
-    package = json.loads(sys.stdin.read())
-
-    package['name'] = title_to_name(package['title'])
-    package['resources'] = [create_resource(data_filename)]
-    package['version'] = bump_version(package['version'])
-
-    sys.stdout.write(json.dumps(
-        package, sort_keys=True, indent=2, separators=(',', ': ')
-    ))
-
-
-main('database.csv')

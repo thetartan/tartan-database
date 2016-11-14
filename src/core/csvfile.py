@@ -1,9 +1,9 @@
 import csv
 import sys
+import utils
 
 
 class Writer:
-    BOM = '\xEF\xBB\xBF'
 
     headers = None
     file = None
@@ -23,7 +23,7 @@ class Writer:
 
     def write_row(self, row, write_bom=False):
         if write_bom:
-            self.file.write(self.BOM)
+            self.file.write(utils.BOM)
         data = []
         for header in self.headers:
             data.append(unicode(row.get(header[0], '')).encode('utf-8'))

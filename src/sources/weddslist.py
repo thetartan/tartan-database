@@ -97,6 +97,8 @@ class Weddslist(Source):
         ('url', 'URL'),
     ]
 
+    url = 'http://www.weddslist.com/tartans/links.html'
+
     def get_items(self):
         return [
             {
