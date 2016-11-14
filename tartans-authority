@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+name='tartans-authority'
+ident='tartans_authority'
+
+/usr/bin/env python cli.py ${name} $*
+
+mkdir -p data/${name}
+cp storage/${ident}/data.csv data/${name}
+cp storage/${ident}/datapackage.json data/${name}

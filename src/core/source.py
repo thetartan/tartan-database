@@ -164,9 +164,6 @@ class Source(object):
         except (IOError, ValueError):
             package = {}
 
-        package['author'] = package.get(
-            'author', os.environ.get('DATASET_AUTHOR', '')
-        )
         package['title'] = package.get('title', self.name + ' Tartan Database')
         package['name'] = package.get(
             'name', datapackage.title_to_name(package['title'])
@@ -188,8 +185,13 @@ class Source(object):
         resource['path'] = os.path.relpath(resource['path'], prefix + '/')
         package['resources'] = [resource]
 
-        package['version'] = datapackage.bump_version(
-            package.get('version', os.environ.get('DATASET_VERSION', '0.0.0'))
+        package['author'] = os.environ.get(
+            'DATASET_AUTHOR',
+            package.get('author', '')
+        )
+        package['version'] = os.environ.get(
+            'DATASET_VERSION',
+            datapackage.bump_version(package.get('version', '0.0.0'))
         )
 
         self.file_put('datapackage.json', json.dumps(

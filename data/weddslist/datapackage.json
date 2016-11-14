@@ -1,0 +1,57 @@
+{
+  "author": "Levko Kravets <levko.ne@gmail.com>",
+  "description": "Database of tartan threadcounts from Weddslist (http://www.weddslist.com/tartans/links.html)",
+  "name": "weddslist-tartan-database",
+  "resources": [
+    {
+      "bytes": 688128,
+      "format": "CSV",
+      "mediatype": "text/csv",
+      "name": "data",
+      "path": "data.csv",
+      "schema": {
+        "fields": [
+          {
+            "format": "default",
+            "name": "source",
+            "title": "Source",
+            "type": "string"
+          },
+          {
+            "format": "default",
+            "name": "category",
+            "title": "Category",
+            "type": "string"
+          },
+          {
+            "format": "default",
+            "name": "name",
+            "title": "Name",
+            "type": "string"
+          },
+          {
+            "format": "default",
+            "name": "palette",
+            "title": "Palette",
+            "type": "string"
+          },
+          {
+            "format": "default",
+            "name": "threadcount",
+            "title": "Threadcount",
+            "type": "string"
+          },
+          {
+            "format": "default",
+            "name": "url",
+            "title": "URL",
+            "type": "string"
+          }
+        ]
+      },
+      "title": "Data"
+    }
+  ],
+  "title": "Weddslist Tartan Database",
+  "version": "1.0.1"
+}

@@ -1,0 +1,93 @@
+{
+  "author": "Levko Kravets <levko.ne@gmail.com>",
+  "description": "Database of tartan threadcounts from Scottish Tartans Authority (http://www.tartansauthority.com/)",
+  "name": "scottish-tartans-authority-tartan-database",
+  "resources": [
+    {
+      "bytes": 2445312,
+      "format": "CSV",
+      "mediatype": "text/csv",
+      "name": "data",
+      "path": "data.csv",
+      "schema": {
+        "fields": [
+          {
+            "format": "default",
+            "name": "source",
+            "title": "Source",
+            "type": "string"
+          },
+          {
+            "format": "default",
+            "name": "source-id",
+            "title": "Source ID",
+            "type": "string"
+          },
+          {
+            "format": "default",
+            "name": "name",
+            "title": "Name",
+            "type": "string"
+          },
+          {
+            "format": "default",
+            "name": "alternative-name",
+            "title": "Alternative Name",
+            "type": "string"
+          },
+          {
+            "format": "default",
+            "name": "iti-number",
+            "title": "ITI Number",
+            "type": "string"
+          },
+          {
+            "format": "default",
+            "name": "category",
+            "title": "Category",
+            "type": "string"
+          },
+          {
+            "format": "default",
+            "name": "designer",
+            "title": "Designer",
+            "type": "string"
+          },
+          {
+            "format": "default",
+            "name": "date",
+            "title": "Date",
+            "type": "string"
+          },
+          {
+            "format": "default",
+            "name": "palette",
+            "title": "Palette",
+            "type": "string"
+          },
+          {
+            "format": "default",
+            "name": "threadcount",
+            "title": "Threadcount",
+            "type": "string"
+          },
+          {
+            "format": "default",
+            "name": "notes",
+            "title": "Notes",
+            "type": "string"
+          },
+          {
+            "format": "default",
+            "name": "url",
+            "title": "URL",
+            "type": "string"
+          }
+        ]
+      },
+      "title": "Data"
+    }
+  ],
+  "title": "Scottish Tartans Authority Tartan Database",
+  "version": "1.0.1"
+}

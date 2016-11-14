@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+./weddslist $*
+./house-of-tartan $*
+./tartans-authority $*

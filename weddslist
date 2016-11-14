@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+name='weddslist'
+ident='weddslist'
+
+/usr/bin/env python cli.py ${name} $*
+
+mkdir -p data/${name}
+cp storage/${ident}/data.csv data/${name}
+cp storage/${ident}/datapackage.json data/${name}
