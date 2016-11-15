@@ -42,3 +42,10 @@ Set this environment variables before running bash scripts:
 
 - `DATASET_AUTHOR` - to update `author` field in `datapackage.json`
 - `DATASET_VERSION` - to update `version` field in `datapackage.json`
+
+## Other stuff
+
+To save raw grabbed files after running grabbers, you can use `stg` script:
+`./stg pack` - pack `storage` folder, `./stg unpack` - restore previously 
+packed files. It may be useful when improving parsers - grabbing files may take
+a while, so it's better to use cached ones.

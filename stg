@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+srcname='storage'
+tarname='storage.tar.gz'
+
+if [ $1 == 'pack' ]
+then
+  rm -f ${tarname}
+  tar -zcvf ${tarname} ${srcname}
+  exit
+fi
+
+if [ $1 == 'unpack' ]
+then
+  tar -zxvf ${tarname}
+  exit
+fi
+
+echo "Unknown command: ${1}"

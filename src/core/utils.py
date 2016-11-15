@@ -1,5 +1,6 @@
 import re
 from datetime import datetime
+from PIL import ImageColor
 from HTMLParser import HTMLParser
 
 html = HTMLParser()
@@ -68,3 +69,42 @@ def commonprefix(l):
         cp.append(s.pop())
 
     return '/'.join(cp)
+
+
+def html_adjust(color, factor):
+    return '#' + ''.join(map(
+        lambda v: '%02x' % min(int(v * factor), 255),
+        ImageColor.getrgb(color)
+    )).upper()
+
+
+def html_mix(*colors):
+    return '#' + ''.join(map(
+        lambda v: '%02x' % int(sum(v) / len(v)),
+        zip(*map(ImageColor.getrgb, colors))
+    )).upper()
+
+
+def adjust_color(name, palette, default='%%'):
+    adjust = {'L': 1.0 + 1.0/3.0, 'D': 1.0 - 1.0/3.0}
+    result = palette.get(name, '')
+    if result != '':
+        return result
+
+    prefix = name[0].upper()
+    if prefix in ['L', 'D']:
+        name = name[1:]
+
+    result = palette.get(name, '')
+    if result == '':
+        result = html_mix(*[x for x in map(
+            lambda c: palette.get(c, ''),
+            name
+        ) if x != '']) + default
+
+    if result != '':
+        if prefix in adjust:
+            return html_adjust(result, adjust[prefix])
+        return result
+
+    return default

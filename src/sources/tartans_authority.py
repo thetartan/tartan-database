@@ -2,7 +2,7 @@ from ..core import Source, log, utils
 import re
 import json
 import requests
-from PIL import Image, ImageColor
+from PIL import Image
 
 re_extract_ids = re.compile(
     'href="/tartan-ferret/display/([0-9]+)/[^"]*"',
@@ -53,7 +53,7 @@ def extract_colors(filename):
         return None
     for x in range(0, box[2]):
         color = '#' + ''.join(map(
-            lambda v: format(v, 'x').zfill(2),
+            lambda v: '%02x' % v,
             img.getpixel((x, 0))
         )).upper()
 
@@ -133,47 +133,6 @@ def parse_metadata(data):
             result['designer'] = ''
 
     return result
-
-
-def html_adjust(color, factor):
-    return '#' + ''.join(map(
-        lambda v: format(
-            int(v * factor) if v * factor < 255 else 255, 'x'
-        ).zfill(2),
-        ImageColor.getrgb(color)
-    )).upper()
-
-
-def html_mix(*colors):
-    return '#' + ''.join(map(
-        lambda v: format(int(sum(v) / len(v)), 'x').zfill(2),
-        zip(*map(ImageColor.getrgb, colors))
-    )).upper()
-
-
-def adjust_color(name, palette, default='%%'):
-    adjust = {'L': 1.0 + 1.0/3.0, 'D': 1.0 - 1.0/3.0}
-    result = palette.get(name, '')
-    if result != '':
-        return result
-
-    prefix = name[0].upper()
-    if prefix in ['L', 'D']:
-        name = name[1:]
-
-    result = palette.get(name, '')
-    if result == '':
-        result = html_mix(*[x for x in map(
-            lambda c: palette.get(c, ''),
-            name
-        ) if x != '']) + default
-
-    if result != '':
-        if prefix in adjust:
-            return html_adjust(result, adjust[prefix])
-        return result
-
-    return default
 
 
 class TartansAuthority(Source):
@@ -311,7 +270,7 @@ class TartansAuthority(Source):
             if (item['palette'] == '') and (item['threadcount'] != ''):
                 names = list(set(re_color_names.findall(item['threadcount'])))
                 colors = ' '.join(map(
-                    lambda n: n + adjust_color(n, palette) + ';',
+                    lambda n: n + utils.adjust_color(n, palette) + ';',
                     names
                 ))
                 if '%' in colors:
