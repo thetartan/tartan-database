@@ -7,7 +7,8 @@
 - Scottish Tartans Authority (http://www.tartansauthority.com/)
 
 Dataset files are available in the `data` directory - each dataset in its
-own subfolder. Raw/unparsed data can be found in `storage` directory.
+own subfolder. Raw/unparsed data can be found in `storage` directory after running 
+any of processing scripts.
 
 ## Requirements
 
