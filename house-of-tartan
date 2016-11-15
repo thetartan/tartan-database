@@ -3,6 +3,9 @@
 name='house-of-tartan'
 ident='house_of_tartan'
 
+mkdir -p storage/${ident}
+cp data/${name}/datapackage.json storage/${ident}/datapackage.json
+
 /usr/bin/env python cli.py ${name} $*
 
 mkdir -p data/${name}
