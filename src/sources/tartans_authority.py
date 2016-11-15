@@ -1,7 +1,8 @@
 from ..core import Source, log, utils
 import re
+import json
 import requests
-from PIL import Image
+from PIL import Image, ImageColor
 
 re_extract_ids = re.compile(
     'href="/tartan-ferret/display/([0-9]+)/[^"]*"',
@@ -134,6 +135,47 @@ def parse_metadata(data):
     return result
 
 
+def html_adjust(color, factor):
+    return '#' + ''.join(map(
+        lambda v: format(
+            int(v * factor) if v * factor < 255 else 255, 'x'
+        ).zfill(2),
+        ImageColor.getrgb(color)
+    )).upper()
+
+
+def html_mix(*colors):
+    return '#' + ''.join(map(
+        lambda v: format(int(sum(v) / len(v)), 'x').zfill(2),
+        zip(*map(ImageColor.getrgb, colors))
+    )).upper()
+
+
+def adjust_color(name, palette, default='%%'):
+    adjust = {'L': 1.0 + 1.0/3.0, 'D': 1.0 - 1.0/3.0}
+    result = palette.get(name, '')
+    if result != '':
+        return result
+
+    prefix = name[0].upper()
+    if prefix in ['L', 'D']:
+        name = name[1:]
+
+    result = palette.get(name, '')
+    if result == '':
+        result = html_mix(*[x for x in map(
+            lambda c: palette.get(c, ''),
+            name
+        ) if x != '']) + default
+
+    if result != '':
+        if prefix in adjust:
+            return html_adjust(result, adjust[prefix])
+        return result
+
+    return default
+
+
 class TartansAuthority(Source):
 
     id = 'tartans_authority'
@@ -255,7 +297,36 @@ class TartansAuthority(Source):
             if attempts == 0:
                 return self.SKIP, (item, resp.content)
 
-    def extract_items(self, item):
+    def post_parse(self, items, context):
+        self.file_put('palette.json', json.dumps(
+            context['palette'], sort_keys=True, indent=2, separators=(',', ': ')
+        ))
+
+        palette = {}
+        for key, values in context.get('palette', {}).items():
+            if len(values) > 0:
+                palette[key] = max(values.iteritems(), key=lambda x: x[1])[0]
+
+        for item in items:
+            if (item['palette'] == '') and (item['threadcount'] != ''):
+                names = list(set(re_color_names.findall(item['threadcount'])))
+                colors = ' '.join(map(
+                    lambda n: n + adjust_color(n, palette) + ';',
+                    names
+                ))
+                if '%' in colors:
+                    log.warning(' '.join([
+                        str(item['id']), colors, item['threadcount']
+                    ]))
+                else:
+                    log.notice(' '.join([
+                        'Fixed', str(item['id']), item['threadcount']
+                    ]))
+                    item['palette'] = colors
+
+        return items
+
+    def extract_items(self, item, meta):
         log.message('Parsing ' + str(item) + '...')
         filename = str(item).zfill(6)
         data = self.file_get('grabbed/' + filename + '.html')
@@ -265,12 +336,21 @@ class TartansAuthority(Source):
         result['source'] = self.name
         result['id'] = str(item)
         result['url'] = self.host + '/tartan-ferret/display/' + str(item) + '/'
+
+        palette = build_palette(
+            re_color_names.findall(result['threadcount']),
+            extract_colors(self.realpath('images/' + filename + '.png'))
+        )
+
+        meta['palette'] = meta.get('palette', {})
+        temp = meta['palette']
+        for key in palette:
+            temp[key] = temp.get(key, {})
+            temp[key][palette[key]] = temp[key].get(palette[key], 0) + 1
+
         result['palette'] = ' '.join(map(
             lambda (key, value): key + value + ';',
-            dict(build_palette(
-                re_color_names.findall(result['threadcount']),
-                extract_colors(self.realpath('images/' + filename + '.png'))
-            )).items()
+            dict(palette).items()
         ))
 
         return [result]

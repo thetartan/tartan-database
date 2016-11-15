@@ -149,7 +149,7 @@ class Weddslist(Source):
         log.http_status(resp.status_code, resp.reason)
         return self.process_retrieved(resp, 'grabbed/' + item['id'] + '.html')
 
-    def extract_items(self, category):
+    def extract_items(self, category, context):
         log.message('Parsing ' + category['id'] + '...')
         result = []
         data = self.file_get('grabbed/' + category['id'] + '.html')

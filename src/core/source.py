@@ -115,8 +115,11 @@ class Source(object):
 
         return result
 
-    def extract_items(self, item):
+    def extract_items(self, item, meta):
         return []
+
+    def post_parse(self, items, context):
+        return items
 
     def parse(self, write='data.csv'):
         log.header(self.name)
@@ -129,9 +132,11 @@ class Source(object):
         items = items['all']
         log.message(log.BOLD + str(len(items)) + log.END + ' item(s) in queue')
 
+        context = {}
         result = []
         for item in items:
-            result += self.extract_items(item)
+            result += self.extract_items(item, context)
+        result = self.post_parse(result, context)
 
         if write:
             write = sys.stdout if write is True else write
@@ -158,7 +163,7 @@ class Source(object):
 
         return result
 
-    def update_datapackage(self, datafile='data.csv'):
+    def update_datapackage(self, datafile='data.csv', additional_meta=None):
         try:
             package = json.loads(self.file_get('datapackage.json'))
         except (IOError, ValueError):
@@ -168,6 +173,10 @@ class Source(object):
         package['name'] = package.get(
             'name', datapackage.title_to_name(package['title'])
         )
+
+        if additional_meta is not None:
+            for key in additional_meta:
+                package[key] = additional_meta[key];
 
         url = self.url if isinstance(self.url, basestring) else ''
         url = ' (' + url + ')' if url != '' else ''
@@ -183,6 +192,7 @@ class Source(object):
             resource['path'], self.realpath('datapackage.json')
         ])
         resource['path'] = os.path.relpath(resource['path'], prefix + '/')
+        resource['headers'] = True
         package['resources'] = [resource]
 
         package['author'] = os.environ.get(
@@ -196,4 +206,4 @@ class Source(object):
 
         self.file_put('datapackage.json', json.dumps(
             package, sort_keys=True, indent=2, separators=(',', ': ')
-        ))
+        ) + '\n')

@@ -24,11 +24,11 @@ def main():
         exit()
 
     if 'grab' in args:
-        print source, 'grab'
         source.grab()
     if 'parse' in args:
-        print source, 'parse'
         source.parse()
+    if 'update' in args:
+        source.update_datapackage()
 
 
 if __name__ == '__main__':

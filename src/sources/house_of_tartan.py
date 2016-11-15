@@ -153,7 +153,7 @@ class HouseOfTartan(Source):
             resp, 'grabbed/' + str(item).zfill(6) + '.html'
         )
 
-    def extract_items(self, item):
+    def extract_items(self, item, context):
         log.message('Parsing ' + str(item) + '...')
         result = {}
         data = self.file_get('grabbed/' + str(item).zfill(6) + '.html')

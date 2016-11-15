@@ -4,8 +4,9 @@
   "name": "scottish-tartans-authority-tartan-database",
   "resources": [
     {
-      "bytes": 2445312,
+      "bytes": 2506752,
       "format": "CSV",
+      "headers": true,
       "mediatype": "text/csv",
       "name": "data",
       "path": "data.csv",
@@ -89,5 +90,5 @@
     }
   ],
   "title": "Scottish Tartans Authority Tartan Database",
-  "version": "1.0.1"
+  "version": "1.0.2"
 }

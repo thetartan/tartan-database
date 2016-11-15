@@ -6,6 +6,7 @@
     {
       "bytes": 688128,
       "format": "CSV",
+      "headers": true,
       "mediatype": "text/csv",
       "name": "data",
       "path": "data.csv",
