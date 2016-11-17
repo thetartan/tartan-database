@@ -96,10 +96,19 @@ def normalize_threadcount(value, reflect=False):
 def parse_metadata(data):
     result = map(
         lambda (key, value): (
-            attr_map.get(key.strip().strip(':')),
+            attr_map[key],
             utils.cleanup(value)
         ),
-        re_extract_attr.findall(data)
+        filter(
+            lambda (key, value): key != '',
+            map(
+                lambda (key, value): (
+                    utils.cleanup(key.strip().strip(':')),
+                    value
+                ),
+                re_extract_attr.findall(data)
+            )
+        )
     )
     result = filter(
         lambda (key, value): key is not None,
