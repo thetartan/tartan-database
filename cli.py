@@ -28,10 +28,10 @@ def main():
     source = source()
 
     if 'grab' in args:
-        source.grab()
+        source.grab(retry='--retry' in args, update='--update' in args)
     if 'parse' in args:
         source.parse()
-    if 'update' in args:
+    if 'datapackage' in args:
         source.update_datapackage()
 
 

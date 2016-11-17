@@ -254,7 +254,7 @@ class TartansAuthority(Source):
                 )
             attempts -= 1
             if attempts == 0:
-                return self.SKIP, (item, resp.content)
+                return self.SKIP
 
     def post_parse(self, items, context):
         self.file_put('palette.json', json.dumps(

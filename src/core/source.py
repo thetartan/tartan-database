@@ -15,6 +15,8 @@ class Source(object):
     SKIP = 'skip'
     FAIL = 'fail'
 
+    session_save_interval = 1  # Save for each ID; 0 - to save once at the end
+
     id = ''
     name = ''
     description = ''
@@ -54,16 +56,18 @@ class Source(object):
     def process_retrieved(self, response, filename):
         if response.status_code == 200:
             self.file_put(filename, response.content)
-            return self.SUCCESS, None
-        result = (response.status_code, response.reason, response.content)
+            return self.SUCCESS
         if int(response.status_code / 100) in [2, 3]:
-            return self.SKIP, result
-        return self.FAIL, result
+            return self.SKIP
+        return self.FAIL
 
     def retrieve(self, item):
-        return self.SKIP, None
+        return self.SKIP
 
-    def grab(self):
+    # retry - load previous session and try to grab skipped/failed items
+    # update - load previous session, compare with new index and
+    # grab only new items
+    def grab(self, retry=False, update=False):
         log.header(self.name)
         if self.description != '':
             log.subheader(self.description)
@@ -71,18 +75,55 @@ class Source(object):
         log.started()
 
         log.started('Initialize queue...')
+
+        try:
+            saved_session = json.loads(self.file_get('items.json'))
+        except ValueError:
+            saved_session = {'all': []}
+
         items = self.get_items()
-        log.message(log.BOLD + str(len(items)) + log.END + ' item(s) in queue')
+
+        retry_items = []
+        if retry:
+            retry_items = saved_session.get(self.SKIP, []) + \
+                          saved_session.get(self.FAIL, [])
+
+        update_items = []
+        if update:
+            processed = saved_session.get(self.SUCCESS, []) + \
+                        saved_session.get(self.SKIP, []) + \
+                        saved_session.get(self.FAIL, [])
+            update_items = [x for x in items if x not in processed]
+
+        queue = retry_items + update_items
+        if not retry and not update:
+            queue += items
+
+        log.message(log.BOLD + str(len(queue)) + log.END + ' item(s) in queue')
+        if retry or update:
+            log.error(prefix=str(len(retry_items)), message='item(s) to retry')
+            log.warning(prefix=str(len(update_items)), message='new item(s)')
+
         result = {
-            'all': items,
+            'all': sorted(list(set(items + saved_session.get('all', [])))),
+            self.SUCCESS: saved_session.get(self.SUCCESS, [])
         }
 
         log.started('Retrieve data...')
-        for item in items:
-            status, data = self.retrieve(item)
+        queue = sorted(list(set(queue)))
+        index = 0
+        for item in queue:
+            status = self.retrieve(item)
             temp = result.get(status, [])
-            temp.append((item, data))
-            result[status] = temp
+            temp.append(item)
+            result[status] = sorted(list(set(temp)))
+            index += 1
+            # Save session
+            if self.session_save_interval > 0:
+                if index % self.session_save_interval == 0:
+                    self.file_put('items.json', json.dumps(
+                        result, sort_keys=True, indent=2, separators=(',', ': ')
+                    ))
 
         log.newline()
         log.subheader('Report:')
@@ -144,8 +185,7 @@ class Source(object):
                 if isinstance(write, basestring) else write
             if len(result) > 0:
                 csv.Writer(self.headers, write).write(result)
-            if write.name:
-                self.update_datapackage(write.name)
+
 
         log.newline()
         log.subheader('Report:')

@@ -223,7 +223,7 @@ class RegisterOfTartans(Source):
 
         session = self.get_session(item)
         if not session.is_logged_in:
-            return self.SKIP, None
+            return self.SKIP
 
         # Get page info
         resp = session.get(
@@ -236,7 +236,7 @@ class RegisterOfTartans(Source):
         if resp.status_code == 200:
             self.file_put('meta/' + filename + '.html', resp.content)
         else:
-            return self.SKIP, None
+            return self.SKIP
 
         # Get threadcount
         session.get(
@@ -250,4 +250,4 @@ class RegisterOfTartans(Source):
         if resp.status_code == 200:
             self.file_put('threadcount/' + filename + '.html', resp.content)
 
-        return self.SUCCESS, None
+        return self.SUCCESS

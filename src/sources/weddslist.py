@@ -31,6 +31,47 @@ re_normalize_threadcount = re.compile(
     re.IGNORECASE
 )
 
+categories = [
+    {
+        'id': 'rb',
+        'name': 'Robert Bradford',
+        'comment': 'Patterns kindly provided by Robert Bradford.',
+    },
+    {
+        'id': 'tinsel',
+        'name': 'Thomas Insel',
+        'comment': 'Patterns from [Thomas Insel\'s Tartan for Java]'
+                   '(http://www.tinsel.org/tinsel/Java/Tartan/setts.txt).',
+    },
+    {
+        'id': 'x',
+        'name': 'Jim McBeath & Joseph Shelby',
+        'comment': 'Patterns from [XTartan]'
+                   '(http://www.io.com/~acroyear/XTartan.html) '
+                   'by Jim McBeath & Joseph Shelby.',
+    },
+    {
+        'id': 'sts',
+        'name': 'Scottish Tartans Society',
+        'comment': 'Patterns from the [Scottish Tartans Society]'
+                   '(http://www.scottish-tartans-society.co.uk/).',
+    },
+    {
+        'id': 'misc',
+        'name': 'Miscellaneous',
+        'comment': 'Patterns from:\n'
+                   '1. [wyellowstone.com](http://wyellowstone.com)\n'
+                   '2. [House of Tartan]'
+                   '(http://www.house-of-tartan.scotland.net/)\n'
+                   '3. The Laing Family Tartan\n'
+                   '4. The Traill Family Tartan\n'
+                   '5. [Ruxton Tartans]'
+                   '(http://www.dhs.kyutech.ac.jp/~ruxton/ruxtartans.html)\n'
+                   '6. *Programmable plaid: the search for seamless '
+                   'integration in fashion and technology*, Bigger & Fraguada',
+    },
+]
+
 
 def normalize_palette(value):
     result = map(
@@ -100,56 +141,18 @@ class Weddslist(Source):
     url = 'http://www.weddslist.com/tartans/links.html'
 
     def get_items(self):
-        return [
-            {
-                'id': 'rb',
-                'name': 'Robert Bradford',
-                'comment': 'Patterns kindly provided by Robert Bradford.',
-            },
-            {
-                'id': 'tinsel',
-                'name': 'Thomas Insel',
-                'comment': 'Patterns from [Thomas Insel\'s Tartan for Java]'
-                           '(http://www.tinsel.org/tinsel/Java/Tartan/setts.txt).',
-            },
-            {
-                'id': 'x',
-                'name': 'Jim McBeath & Joseph Shelby',
-                'comment': 'Patterns from [XTartan]'
-                           '(http://www.io.com/~acroyear/XTartan.html) '
-                           'by Jim McBeath & Joseph Shelby.',
-            },
-            {
-                'id': 'sts',
-                'name': 'Scottish Tartans Society',
-                'comment': 'Patterns from the [Scottish Tartans Society]'
-                           '(http://www.scottish-tartans-society.co.uk/).',
-            },
-            {
-                'id': 'misc',
-                'name': 'Miscellaneous',
-                'comment': 'Patterns from:\n'
-                           '1. [wyellowstone.com](http://wyellowstone.com)\n'
-                           '2. [House of Tartan]'
-                           '(http://www.house-of-tartan.scotland.net/)\n'
-                           '3. The Laing Family Tartan\n'
-                           '4. The Traill Family Tartan\n'
-                           '5. [Ruxton Tartans]'
-                           '(http://www.dhs.kyutech.ac.jp/~ruxton/ruxtartans.html)\n'
-                           '6. *Programmable plaid: the search for seamless '
-                           'integration in fashion and technology*, Bigger & Fraguada',
-            },
-        ]
+        return map(lambda c: c['id'], categories)
 
     def retrieve(self, item):
         url = 'http://www.weddslist.com/cgi-bin/tartans/pg.pl'
-        params = {'source': item['id']}
-        log.message('Loading ' + item['id'], suffix='... ')
+        params = {'source': item}
+        log.message('Loading ' + item, suffix='... ')
         resp = requests.get(url, params=params)
         log.http_status(resp.status_code, resp.reason)
-        return self.process_retrieved(resp, 'grabbed/' + item['id'] + '.html')
+        return self.process_retrieved(resp, 'grabbed/' + item + '.html')
 
     def extract_items(self, category, context):
+        category = next((x for x in categories if x['id'] == category), None)
         log.message('Parsing ' + category['id'] + '...')
         result = []
         data = self.file_get('grabbed/' + category['id'] + '.html')
