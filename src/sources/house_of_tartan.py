@@ -125,7 +125,6 @@ class HouseOfTartan(Source):
     def get_items(self):
         result = []
 
-        # Iterate through all letters
         for letter in catalogue_index:
             url = self.host + '/house/' + letter + '.asp'
             log.message('Loading ' + letter + '... ', suffix='')

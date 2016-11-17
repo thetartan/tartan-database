@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+name='register-of-tartans'
+ident='register_of_tartans'
+
+mkdir -p storage/${ident}
+cp data/${name}/datapackage.json storage/${ident}/datapackage.json
+
+/usr/bin/env python cli.py ${name} $*
+
+mkdir -p data/${name}
+cp storage/${ident}/data.csv data/${name}
+cp storage/${ident}/datapackage.json data/${name}

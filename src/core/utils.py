@@ -1,4 +1,6 @@
 import re
+import random
+import string
 from datetime import datetime
 from PIL import ImageColor
 from HTMLParser import HTMLParser
@@ -108,3 +110,27 @@ def adjust_color(name, palette, default='%%'):
         return result
 
     return default
+
+
+def random_item(items):
+    return random.choice(items)
+
+
+def random_string(chars, min=6, max=20):
+    return ''.join(random.choice(chars) for x in range(min, max))
+
+
+def random_letters(min=6, max=20):
+    return random_string(string.ascii_letters, min, max)
+
+
+def random_lower(min=6, max=20):
+    return random_string(string.ascii_lowercase, min, max)
+
+
+def random_upper(min=6, max=20):
+    return random_string(string.ascii_uppercase, min, max)
+
+
+def random_digits(min=3, max=10):
+    return random_string(string.digits, min, max)

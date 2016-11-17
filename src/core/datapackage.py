@@ -13,7 +13,9 @@ def get_schema_fields(filename):
             f, delimiter=',', quotechar='"', quoting=csv.QUOTE_ALL,
             skipinitialspace=True
         )
-        row = next(reader)
+        row = next(reader, None)
+    if row is None:
+        return None
     return map(
         lambda x: {
             'name': title_to_name(x),
@@ -35,6 +37,9 @@ def title_to_name(value):
 def create_resource(filename):
     title = ntpath.splitext(ntpath.basename(filename))[0].strip()
     title = re.sub('[-_]+', ' ', title).title()
+    fields = get_schema_fields(filename)
+    if fields is None:
+        return None
     return {
         'name': title_to_name(title),
         'title': title,
@@ -43,7 +48,7 @@ def create_resource(filename):
         'mediatype': 'text/csv',
         'bytes': os.stat(filename).st_size,
         'schema': {
-            'fields': get_schema_fields(filename)
+            'fields': fields
         }
     }
 

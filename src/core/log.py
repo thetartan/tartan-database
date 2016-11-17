@@ -42,6 +42,11 @@ def success(message, prefix='Success:', suffix='', file=sys.stderr):
     )
 
 
+def log(message, prefix='Log:', suffix='', file=sys.stderr):
+    prefix += ' ' if prefix != '' else ''
+    file.write(BOLD + prefix + END + message + suffix + '\n')
+
+
 def message(message, prefix='', suffix='\n', file=sys.stderr):
     file.write(prefix + message + suffix)
 

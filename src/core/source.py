@@ -188,6 +188,8 @@ class Source(object):
         resource = datapackage.create_resource(
             self.realpath(datafile)
         )
+        if resource is None:
+            return
         prefix = utils.commonprefix([
             resource['path'], self.realpath('datapackage.json')
         ])

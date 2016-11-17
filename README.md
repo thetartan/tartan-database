@@ -5,16 +5,19 @@
 - Weddslist (http://www.weddslist.com/tartans/links.html)
 - House of Tartan (http://www.house-of-tartan.scotland.net/)
 - Scottish Tartans Authority (http://www.tartansauthority.com/)
+- Scottish Register of Tartans (https://www.tartanregister.gov.uk/)
+- Tartans of Scotland (http://www.tartans.scotland.net/)
 
 Dataset files are available in the `data` directory - each dataset in its
-own subfolder. Raw/unparsed data can be found in `storage` directory after running 
-any of processing scripts.
+own subfolder. Raw/unparsed data can be found in `storage` directory after 
+running any of processing scripts.
 
 ## Requirements
 
-- Python 2.7
-- `requests` library
-- `Pillow` library (for Scottish Tartans Authority)
+- Python 2.7;
+- `requests` library (version 2.9.1 properly works with TLSv1; 
+newer versions are somehow broken);
+- `Pillow` library (for Scottish Tartans Authority).
 
 ## Usage
 
