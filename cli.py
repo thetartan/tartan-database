@@ -13,7 +13,7 @@ def main():
     source = sys.argv[1].lower()
     args = sys.argv[2:]
     if len(args) == 0:
-        args += ['grab', 'parse']
+        args += ['grab', 'parse', 'datapackage']
     args = map(lambda v: re.sub('_', '-', v).lower(), args)
 
     source = {

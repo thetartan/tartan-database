@@ -27,6 +27,8 @@ Run corresponding bash script to update a source:
 - `./weddslist` - for Weddslist
 - `./house-of-tartan` - for House of Tartan
 - `./tartans-authority` - for Scottish Tartans Authority
+- `./tartans-of-scotland` - for Tartans os Scotland
+- `./register-of-tartans` - for Scottish Register of Tartans
 
 **Arguments:**
 
@@ -35,12 +37,13 @@ possible modifiers:
   - `--retry` - enqueue items skipped or failed during previous run;
   - `--update` - enqueue only new items (comparing to previous run); 
 - `parse` - parse downloaded files (but do not download or update any of them);
-- no arguments is equivalent to passing `grab parse` - full update of dataset.
+- `datapackage` - update `datapackage.json`
+- no arguments is equivalent to passing `grab parse datapackage` - full update of dataset.
 
 **Example:**
 
-`./weddslist grab parse` - download html files, parse them, update `datapackage.json`
-and copy new `data.csv` and `datapackage.json` to `data/weddslist` folder.
+`./weddslist grab parse` - download html files, parse them and 
+copy new `data.csv` and `datapackage.json` to `data/weddslist` folder.
 
 `./weddslist grab --retry` - try reload failed items. 
 

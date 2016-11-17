@@ -1,0 +1,113 @@
+{
+  "author": "Levko Kravets <levko.ne@gmail.com>",
+  "description": "Database of tartan threadcounts from Scottish Register of Tartans (https://www.tartanregister.gov.uk/)",
+  "name": "scottish-register-of-tartans-tartan-database",
+  "resources": [
+    {
+      "bytes": 5080697,
+      "format": "CSV",
+      "headers": true,
+      "mediatype": "text/csv",
+      "name": "data",
+      "path": "data.csv",
+      "schema": {
+        "fields": [
+          {
+            "format": "default",
+            "name": "origin-id",
+            "title": "Origin ID",
+            "type": "string"
+          },
+          {
+            "format": "default",
+            "name": "category",
+            "title": "Category",
+            "type": "string"
+          },
+          {
+            "format": "default",
+            "name": "palette",
+            "title": "Palette",
+            "type": "string"
+          },
+          {
+            "format": "default",
+            "name": "threadcount",
+            "title": "Threadcount",
+            "type": "string"
+          },
+          {
+            "format": "default",
+            "name": "restrictions",
+            "title": "Restrictions",
+            "type": "string"
+          },
+          {
+            "format": "default",
+            "name": "source",
+            "title": "Source",
+            "type": "string"
+          },
+          {
+            "format": "default",
+            "name": "sta-reference",
+            "title": "STA Reference",
+            "type": "string"
+          },
+          {
+            "format": "default",
+            "name": "stwr-reference",
+            "title": "STWR Reference",
+            "type": "string"
+          },
+          {
+            "format": "default",
+            "name": "wowen-sample",
+            "title": "Wowen Sample",
+            "type": "string"
+          },
+          {
+            "format": "default",
+            "name": "notes",
+            "title": "Notes",
+            "type": "string"
+          },
+          {
+            "format": "default",
+            "name": "date",
+            "title": "Date",
+            "type": "string"
+          },
+          {
+            "format": "default",
+            "name": "comment",
+            "title": "Comment",
+            "type": "string"
+          },
+          {
+            "format": "default",
+            "name": "registration-date",
+            "title": "Registration Date",
+            "type": "string"
+          },
+          {
+            "format": "default",
+            "name": "registrant-details",
+            "title": "Registrant details",
+            "type": "string"
+          },
+          {
+            "format": "default",
+            "name": "origin-url",
+            "title": "Origin URL",
+            "type": "string"
+          }
+        ]
+      },
+      "title": "Data"
+    }
+  ],
+  "title": "Scottish Register of Tartans Tartan Database",
+  "updated": "2016/11/17 18:49:23",
+  "version": "1.0.1"
+}

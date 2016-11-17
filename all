@@ -3,3 +3,5 @@
 ./weddslist $*
 ./house-of-tartan $*
 ./tartans-authority $*
+./tartans-of-scotland $*
+./register-of-tartans $*

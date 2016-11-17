@@ -33,8 +33,13 @@ def now(fmt='%Y/%m/%d %H:%M:%S'):
 
 
 def cleanup(value):
-    value = re.sub('(<!--.*?-->|<[^>]*>)', '', value)
-    return re.sub('\s+', ' ', html.unescape(value).strip(), flags=re.UNICODE)
+    value = re.sub(
+        '(<!--.*?-->|<[^>]*>)', '', value,
+        flags=re.UNICODE | re.DOTALL
+    )
+    return re.sub('\s+', ' ',
+        html.unescape(value).strip(),
+        flags=re.UNICODE)
 
 
 def remap_word(word):

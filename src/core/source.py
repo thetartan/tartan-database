@@ -247,6 +247,8 @@ class Source(object):
             datapackage.bump_version(package.get('version', '0.0.0'))
         )
 
+        package['updated'] = utils.now()
+
         self.file_put('datapackage.json', json.dumps(
             package, sort_keys=True, indent=2, separators=(',', ': ')
         ) + '\n')

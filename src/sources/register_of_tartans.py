@@ -4,6 +4,10 @@ import ssl
 import requests
 from requests.adapters import HTTPAdapter
 
+# This Register of Tartans site forces https, but we should
+# use TLSv1 - otherwise server will not reply to SSL handshake.
+# Also their IIS may fail with strange errors, so handle it
+# carefully
 
 class ForceTLSV1Adapter(HTTPAdapter):
     def init_poolmanager(self, connections, maxsize, block=False, **pool_kwargs):
@@ -19,22 +23,28 @@ catalogue_index = [chr(i) for i in range(ord('A'), ord('Z') + 1)]
 
 re_form_fields_all = re.compile(
     '<input\s.*?name="([^"]+)"',
-    re.IGNORECASE
+    re.IGNORECASE | re.DOTALL | re.UNICODE
 )
 
 re_form_fields_filled = re.compile(
     '<input\s.*?name="([^"]+)"\s.*value="([^"]*)"',
-    re.IGNORECASE
+    re.IGNORECASE | re.DOTALL | re.UNICODE
 )
 
 re_captcha_image = re.compile(
     '<img\s+.*id="SpamPicture"\s.*src="([^"]+)"',
-    re.IGNORECASE
+    re.IGNORECASE | re.DOTALL | re.UNICODE
 )
 
 re_registration_id = re.compile(
     '/cust_AddNew4\.aspx\?reference=(.+)$',
-    re.IGNORECASE
+    re.IGNORECASE | re.DOTALL
+)
+
+re_extract_attr = re.compile(
+    '<tr>\s*<td\s+class="coreTextBold"[^>]*>(.*?)</td>\s*'
+    '<td\s+class="coreText"[^>]*>(.*?)</td>\s*</tr>',
+    re.IGNORECASE | re.DOTALL | re.UNICODE
 )
 
 captcha = {
@@ -55,6 +65,131 @@ re_extract_ids = re.compile(
     re.IGNORECASE
 )
 
+attr_map = {
+    'Category': 'category',
+    'Restrictions': 'restrictions',
+    'Designer': 'source',
+    'STA ref:': 'sta_ref',  # 'none' -> ''
+    'STWR ref:': 'stwr_ref',  # 'none' -> ''
+    'Woven Sample:': 'woven_sample',
+    'Registration notes': 'notes',
+    'Tartan date': 'date',
+    'Information notes:': 'comment',  # 'Not Specified' -> ''
+    'Registration date': 'registration_date',
+    'Reference:': '',  # remove - it is `origin_id`
+    'Registrant details:': 'registrant_details'
+}
+
+re_extract_threadcount_block = re.compile(
+    '<span\s+id="lblResults">.*?<table(.+?)</table>',
+    re.IGNORECASE | re.DOTALL | re.UNICODE
+)
+
+re_extract_threadcount = re.compile(
+    '<tr[^>]*?>.*?href="tartanDetails\.aspx\?ref=([0-9]+)".*?'
+    '<td>(.*?)</td>.*?</tr>',
+    re.IGNORECASE | re.DOTALL | re.UNICODE
+)
+
+
+def parse_attributes(data):
+    result = dict(filter(
+        lambda (key, value): key != '',
+        map(
+            lambda (key, value): (
+                attr_map[
+                    utils.cleanup(key.strip().strip(':'))
+                ] if key != '' else '',
+                utils.cleanup(value.decode('utf-8'))
+            ),
+            re_extract_attr.findall(data)
+        )
+    ))
+
+    if 'sta_ref' in result:
+        if result['sta_ref'].lower() == 'none':
+            result['sta_ref'] = ''
+
+    if 'stwr_ref' in result:
+        if result['stwr_ref'].lower() == 'none':
+            result['stwr_ref'] = ''
+
+    if 'comment' in result:
+        if result['comment'].lower() == 'not specified':
+            result['comment'] = ''
+
+    return result
+
+
+re_normalize_palette = re.compile(
+    '([a-z]+)=([0-9a-f]{6})([a-z\s()]*)[;,]',
+    re.IGNORECASE | re.DOTALL
+)
+
+re_normalize_threadcount = re.compile(
+    '^([a-z]+)([0-9]+([a-z]+[0-9]+)+[a-z]+)([0-9]+)$',
+    re.IGNORECASE
+)
+
+
+def normalize_palette(value):
+    result = map(
+        lambda v: v[0].upper() + '#' + v[1].upper() + ' ' + v[2],
+        re_normalize_palette.findall(';' + value + ';')
+    )
+    if len(result) > 0:
+        result.append('')
+
+    return '; '.join(result).strip()
+
+
+def normalize_threadcount(value, reflect=False):
+    result = map(
+        lambda v: re.sub('[^a-zA-Z0-9]+', '', v),
+        # not sure if there are tartans with different warp and weft
+        value.strip('.').split('.')
+    )
+    if reflect:
+        result = map(
+            lambda v: re.sub(re_normalize_threadcount, '\\1/\\2/\\4', v),
+            result
+        )
+
+    result = map(
+        lambda v: re.sub('([0-9]+)', '\\1 ', v).strip(),
+        result
+    )
+
+    return ' // '.join(filter(len, result)).upper()
+
+
+def parse_threadcount(item, data):
+    data = ''.join(re_extract_threadcount_block.findall(data))
+    result = dict(re_extract_threadcount.findall(data)).get(str(item), '')
+    result = filter(
+        bool,
+        re.sub('<br>', '%%', result, flags=re.IGNORECASE).split('%%')
+    )
+    if len(result) <= 1:
+        return {}
+
+    # type can be:
+    # - reflective
+    #   'Threadcount given over a half sett with full count at the pivots.'
+    # - repetitive
+    #   'Threadcount given over the full sett.'
+    is_reflective = 'half sett' in utils.cleanup(result[0]).lower()
+
+    threadcount = normalize_threadcount(result[1], is_reflective)
+    palette = utils.cleanup(result[2] if len(result) >= 3 else '')
+    if palette.lower() == 'not specified':
+        palette = ''
+
+    return {
+        'threadcount': threadcount,
+        'palette': normalize_palette(palette),
+    }
+
 
 class RegisterOfTartans(Source):
 
@@ -67,7 +202,23 @@ class RegisterOfTartans(Source):
         'threadcount'
     ]
 
-    headers = []
+    headers = [
+        ('origin_id', 'Origin ID'),
+        ('category', 'Category'),
+        ('palette', 'Palette'),
+        ('threadcount', 'Threadcount'),
+        ('restrictions', 'Restrictions'),
+        ('source', 'Source'),
+        ('sta_ref', 'STA Reference'),
+        ('stwr_ref', 'STWR Reference'),
+        ('woven_sample', 'Wowen Sample'),
+        ('notes', 'Notes'),
+        ('date', 'Date'),
+        ('comment', 'Comment'),
+        ('registration_date', 'Registration Date'),
+        ('registrant_details', 'Registrant details'),
+        ('origin_url', 'Origin URL'),
+    ]
 
     host = 'https://www.tartanregister.gov.uk'
     url = 'https://www.tartanregister.gov.uk/'
@@ -158,6 +309,11 @@ class RegisterOfTartans(Source):
         if len(registration_id) == 0:
             return False
         registration_id = registration_id[0]
+        # Registration can fail up to this moment.
+        # If user will be registered, but confirmation fails - we will
+        # lost this user forever. So display confirmation code - it may be
+        # used to activate user manually
+        log.notice(username + ' ' + registration_id)
 
         resp = session.get(
             self.host + '/customerConfirm.aspx',
@@ -251,3 +407,22 @@ class RegisterOfTartans(Source):
             self.file_put('threadcount/' + filename + '.html', resp.content)
 
         return self.SUCCESS
+
+    def extract_items(self, item, context):
+        log.message('Parsing ' + str(item) + '...')
+        data = self.file_get('meta/' + str(item).zfill(6) + '.html')
+
+        result = parse_attributes(data)
+
+        if 'ref' in result:
+            print item, result
+            exit()
+
+        result['origin_id'] = str(item)
+        result['origin_url'] = \
+            self.host + '/tartanDetails.aspx?ref=' + str(item)
+
+        data = self.file_get('threadcount/' + str(item).zfill(6) + '.html')
+        result.update(parse_threadcount(item, data))
+
+        return [result]
