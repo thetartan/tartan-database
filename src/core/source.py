@@ -72,7 +72,7 @@ class Source(object):
         if self.description != '':
             log.subheader(self.description)
 
-        log.started()
+        log.started('Starting: grab')
 
         log.started('Initialize queue...')
 
@@ -148,7 +148,8 @@ class Source(object):
             )
         log.newline()
 
-        log.finished()
+        log.finished('Finished: grab')
+        log.newline()
 
         self.file_put('items.json', json.dumps(
             result, sort_keys=True, indent=2, separators=(',', ': ')
@@ -167,7 +168,7 @@ class Source(object):
         if self.description != '':
             log.subheader(self.description)
 
-        log.started()
+        log.started('Starting: parse')
 
         items = json.loads(self.file_get('items.json'))
         items = items['all']
@@ -200,15 +201,27 @@ class Source(object):
         )
         log.newline()
 
-        log.finished()
+        log.finished('Finished: parse')
+        log.newline()
 
         return result
 
     def update_datapackage(self, datafile='data.csv', additional_meta=None):
+        log.header(self.name)
+        if self.description != '':
+            log.subheader(self.description)
+
+        log.started('Starting: update datapackage.json')
+
         try:
             package = json.loads(self.file_get('datapackage.json'))
+            log.success(
+                prefix='Load:',
+                message=self.realpath('datapackage.json')
+            )
         except (IOError, ValueError):
             package = {}
+            log.warning('new datapackage will be created.')
 
         package['title'] = package.get('title', self.name + ' Tartan Database')
         package['name'] = package.get(
@@ -217,7 +230,7 @@ class Source(object):
 
         if additional_meta is not None:
             for key in additional_meta:
-                package[key] = additional_meta[key];
+                package[key] = additional_meta[key]
 
         url = self.url if isinstance(self.url, basestring) else ''
         url = ' (' + url + ')' if url != '' else ''
@@ -225,19 +238,6 @@ class Source(object):
             'description',
             'Database of tartan threadcounts from ' + self.name + url
         )
-
-        resource = datapackage.create_resource(
-            self.realpath(datafile)
-        )
-        if resource is None:
-            return
-        prefix = utils.commonprefix([
-            resource['path'], self.realpath('datapackage.json')
-        ])
-        resource['path'] = os.path.relpath(resource['path'], prefix + '/')
-        resource['headers'] = True
-        package['resources'] = [resource]
-
         package['author'] = os.environ.get(
             'DATASET_AUTHOR',
             package.get('author', '')
@@ -248,7 +248,25 @@ class Source(object):
         )
 
         package['updated'] = utils.now()
+        resource = datapackage.create_resource(
+            self.realpath(datafile)
+        )
+        if resource is not None:
+            prefix = utils.commonprefix([
+                resource['path'], self.realpath('datapackage.json')
+            ])
+            resource['path'] = os.path.relpath(resource['path'], prefix + '/')
+            resource['headers'] = True
+            package['resources'] = [resource]
 
-        self.file_put('datapackage.json', json.dumps(
-            package, sort_keys=True, indent=2, separators=(',', ': ')
-        ) + '\n')
+            self.file_put('datapackage.json', json.dumps(
+                package, sort_keys=True, indent=2, separators=(',', ': ')
+            ) + '\n')
+
+            log.success(
+                prefix='Saved:',
+                message=self.realpath('datapackage.json')
+            )
+
+        log.finished('Finished: update datapackage.json')
+        log.newline()
