@@ -6,7 +6,7 @@
 - House of Tartan (http://www.house-of-tartan.scotland.net/)
 - Scottish Tartans Authority (http://www.tartansauthority.com/)
 - Scottish Register of Tartans (https://www.tartanregister.gov.uk/)
-- Tartans of Scotland (http://www.tartans.scotland.net/)
+- Tartans of Scotland (http://www.tartans.scotland.net/) (without threadcounts)
 
 Dataset files are available in the `data` directory - each dataset in its
 own subfolder. Raw/unparsed data can be found in `storage` directory after 

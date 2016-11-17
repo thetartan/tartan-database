@@ -4,7 +4,7 @@
   "name": "scottish-tartans-authority-tartan-database",
   "resources": [
     {
-      "bytes": 2506752,
+      "bytes": 3481737,
       "format": "CSV",
       "headers": true,
       "mediatype": "text/csv",
@@ -14,14 +14,8 @@
         "fields": [
           {
             "format": "default",
-            "name": "source",
-            "title": "Source",
-            "type": "string"
-          },
-          {
-            "format": "default",
-            "name": "source-id",
-            "title": "Source ID",
+            "name": "origin-id",
+            "title": "Origin ID",
             "type": "string"
           },
           {
@@ -50,8 +44,8 @@
           },
           {
             "format": "default",
-            "name": "designer",
-            "title": "Designer",
+            "name": "source",
+            "title": "Source",
             "type": "string"
           },
           {
@@ -80,8 +74,8 @@
           },
           {
             "format": "default",
-            "name": "url",
-            "title": "URL",
+            "name": "origin-url",
+            "title": "Origin URL",
             "type": "string"
           }
         ]
@@ -90,5 +84,5 @@
     }
   ],
   "title": "Scottish Tartans Authority Tartan Database",
-  "version": "1.0.2"
+  "version": "2.0.0"
 }

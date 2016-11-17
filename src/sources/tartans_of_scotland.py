@@ -13,6 +13,11 @@ re_extract_image = re.compile(
     re.IGNORECASE
 )
 
+re_extract_attr = re.compile(
+    '<td\s+class="maintext(_nojust)?"[^>]*>(.*?)</td>',
+    re.IGNORECASE | re.DOTALL
+)
+
 # 'A'..'Z', 'mac'
 catalogue_index = [chr(i) for i in range(ord('A'), ord('Z') + 1)] + ['mac']
 # catalogue_index = ['Q']
@@ -29,7 +34,14 @@ class TartansOfScotland(Source):
         'images'
     ]
 
-    headers = []
+    headers = [
+        ('origin_id', 'Origin ID'),
+        ('name', 'Name'),
+        ('description', 'Description'),
+        ('category', 'Category'),
+        ('source', 'Source'),
+        ('origin_url', 'Origin URL'),
+    ]
 
     host = 'http://www.tartans.scotland.net'
     url = 'http://www.tartans.scotland.net/'
@@ -93,3 +105,29 @@ class TartansOfScotland(Source):
         return self.process_retrieved(
             resp, 'grabbed/' + str(item).zfill(6) + '.html'
         )
+
+    def extract_items(self, item, context):
+        data = self.file_get('grabbed/' + str(item).zfill(6) + '.html')
+
+        result = dict(zip(
+            ['name', 'description', 'source'],
+            filter(bool, map(
+                lambda v: utils.cleanup(v[1]),
+                re_extract_attr.findall(data)
+            ))
+        ))
+
+        if result.get('name', '') == '':
+            log.error('item without name: ' + log.BOLD + str(item) + log.END)
+            return []
+
+        result['category'] = utils.parse_category_from_name(result['name'])
+        if result['category'] == '':
+            result['category'] = 'Other'
+
+        result['origin_id'] = str(item)
+        result['origin_url'] = \
+            self.host + '/tartan_info.cfm@tartan_id=' + \
+            str(item) + '.htm'
+
+        return [result]

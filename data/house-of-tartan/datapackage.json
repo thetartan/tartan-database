@@ -4,7 +4,7 @@
   "name": "house-of-tartan-tartan-database",
   "resources": [
     {
-      "bytes": 1286144,
+      "bytes": 1359868,
       "format": "CSV",
       "headers": true,
       "mediatype": "text/csv",
@@ -14,14 +14,8 @@
         "fields": [
           {
             "format": "default",
-            "name": "source",
-            "title": "Source",
-            "type": "string"
-          },
-          {
-            "format": "default",
-            "name": "source-id",
-            "title": "Source ID",
+            "name": "origin-id",
+            "title": "Origin ID",
             "type": "string"
           },
           {
@@ -68,8 +62,8 @@
           },
           {
             "format": "default",
-            "name": "source-url",
-            "title": "Source URL",
+            "name": "origin-url",
+            "title": "Origin URL",
             "type": "string"
           }
         ]
@@ -78,5 +72,5 @@
     }
   ],
   "title": "House of Tartan Tartan Database",
-  "version": "1.0.1"
+  "version": "2.0.0"
 }

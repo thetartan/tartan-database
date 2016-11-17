@@ -4,7 +4,7 @@
   "name": "weddslist-tartan-database",
   "resources": [
     {
-      "bytes": 688128,
+      "bytes": 647641,
       "format": "CSV",
       "headers": true,
       "mediatype": "text/csv",
@@ -12,12 +12,6 @@
       "path": "data.csv",
       "schema": {
         "fields": [
-          {
-            "format": "default",
-            "name": "source",
-            "title": "Source",
-            "type": "string"
-          },
           {
             "format": "default",
             "name": "category",
@@ -44,8 +38,8 @@
           },
           {
             "format": "default",
-            "name": "url",
-            "title": "URL",
+            "name": "origin-url",
+            "title": "Origin URL",
             "type": "string"
           }
         ]
@@ -54,5 +48,5 @@
     }
   ],
   "title": "Weddslist Tartan Database",
-  "version": "1.0.1"
+  "version": "2.0.0"
 }

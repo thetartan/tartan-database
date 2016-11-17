@@ -13,7 +13,7 @@ catalogue_index = [chr(i) for i in range(ord('a'), ord('z') + 1)]
 
 re_extract_attr = re.compile(
     '<div class="(title|ftr-hdr|ftr-txt|ftr-cpy)">(.*)</div>',
-    re.IGNORECASE)
+    re.IGNORECASE | re.DOTALL)
 
 re_extract_pattern = re.compile(
     'Tartan\.setup\((".*")\);',
@@ -35,38 +35,6 @@ attr_map = {
     'ftr-txt': 'comment',
     'ftr-cpy': 'copyright',
 }
-
-# Used to parse category from name
-
-allowed_categories = [
-    # Administrative
-    'city', 'county', 'district', 'state', 'country',
-    # Category
-    'ancient', 'artifact',  'commemorative', 'corporate', 'dance', 'design',
-    'dress', 'fancy', 'fashion', 'general', 'hunting', 'plaid', 'portrait',
-    'universal', 'gathering',
-    # Activity and organizations
-    'band', 'club', 'national', 'international', 'regimental', 'royal',
-    'school', 'trade', 'sport', 'university', 'weavers', 'academy',
-    'association',
-    # Person
-    'clan', 'family', 'name', 'personal',
-]
-
-
-def parse_category(name, delimiter='; '):
-    words = utils.extract_words(name)
-    result = []
-    if (len(words) > 0) and (words[0] not in allowed_categories):
-        del words[0]
-    for word in words:
-        if word in allowed_categories:
-            result.append(word.title())
-        else:
-            break
-    result.reverse()
-    result = sorted(list(set(result)))
-    return delimiter.join(result)
 
 
 def normalize_palette(value):
@@ -107,8 +75,7 @@ class HouseOfTartan(Source):
     ]
 
     headers = [
-        ('source', 'Source'),
-        ('id', 'Source ID'),
+        ('origin_id', 'Origin ID'),
         ('category', 'Category'),
         ('name', 'Name'),
         ('palette', 'Palette'),
@@ -116,7 +83,7 @@ class HouseOfTartan(Source):
         ('overview', 'Overview'),
         ('comment', 'Comment'),
         ('copyright', 'Copyright'),
-        ('url', 'Source URL'),
+        ('origin_url', 'Origin URL'),
     ]
 
     host = 'http://www.house-of-tartan.scotland.net'
@@ -162,13 +129,12 @@ class HouseOfTartan(Source):
             result[attr_map[attr[0]]] = utils.cleanup(attr[1])
 
         # Parse category
-        result['category'] = parse_category(result['name'])
+        result['category'] = utils.parse_category_from_name(result['name'])
         if result['category'] == '':
             result['category'] = 'Other'
 
-        result['source'] = self.name
-        result['id'] = str(item)
-        result['url'] = self.host + '/house/TartanViewjs.asp' + \
+        result['origin_id'] = str(item)
+        result['origin_url'] = self.host + '/house/TartanViewjs.asp' + \
             '?colr=Def&tnam=' + str(item)
 
         # Parse pattern components

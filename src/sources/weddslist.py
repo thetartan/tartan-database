@@ -130,12 +130,11 @@ class Weddslist(Source):
     ]
 
     headers = [
-        ('source', 'Source'),
         ('category', 'Category'),
         ('name', 'Name'),
         ('palette', 'Palette'),
         ('threadcount', 'Threadcount'),
-        ('url', 'URL'),
+        ('origin_url', 'Origin URL'),
     ]
 
     url = 'http://www.weddslist.com/tartans/links.html'
@@ -160,11 +159,10 @@ class Weddslist(Source):
         tartans = re_extract_tartans.findall(data)
         for tartan in tartans:
             item = parse_tartan(tartan[0])
-            item['source'] = self.name
             item['category'] = category['name']
             item['comment'] = category['comment']
             item['name'] = utils.cleanup(tartan[1])
-            item['url'] = \
+            item['origin_url'] = \
                 'http://www.weddslist.com/cgi-bin/tartans/pg.pl' + \
                 '?source=' + category['id']
             result.append(item)

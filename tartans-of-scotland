@@ -3,11 +3,16 @@
 name='tartans-of-scotland'
 ident='tartans_of_scotland'
 
-mkdir -p storage/${ident}
-cp data/${name}/datapackage.json storage/${ident}/datapackage.json
+if mkdir -p storage/${ident}
+then
+  cp data/${name}/datapackage.json storage/${ident}/datapackage.json 2>/dev/null
+  /usr/bin/env python cli.py ${name} $*
 
-/usr/bin/env python cli.py ${name} $*
+  mkdir -p data/${name}
+  cp storage/${ident}/data.csv data/${name} 2>/dev/null
+  cp storage/${ident}/datapackage.json data/${name} 2>/dev/null
 
-mkdir -p data/${name}
-cp storage/${ident}/data.csv data/${name}
-cp storage/${ident}/datapackage.json data/${name}
+  exit
+fi
+
+echo "Something went wrong"

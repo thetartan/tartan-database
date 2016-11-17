@@ -54,6 +54,45 @@ def extract_words(value):
     return filter(len, [remap_word(x) for x in words if x not in stop_words])
 
 
+allowed_categories = [
+    # Administrative
+    'city', 'county', 'district', 'state', 'country',
+    # Category
+    'ancient', 'artifact',  'commemorative', 'corporate', 'dance', 'design',
+    'dress', 'fancy', 'fashion', 'general', 'hunting', 'plaid', 'portrait',
+    'universal', 'gathering',
+    # Activity and organizations
+    'band', 'club', 'national', 'international', 'regimental', 'royal',
+    'school', 'trade', 'sport', 'university', 'weavers', 'academy',
+    'association',
+    # Person
+    'clan', 'family', 'name', 'personal',
+]
+
+
+def parse_category_from_name(name, delimiter='; '):
+    words = extract_words(name)
+    result = []
+    if (len(words) > 0) and (words[0] not in allowed_categories):
+        del words[0]
+    for word in words:
+        if word in allowed_categories:
+            result.append(word.title())
+        else:
+            break
+    result.reverse()
+    result = sorted(list(set(result)))
+    return delimiter.join(result)
+
+
+def parse_category(value, delimiter='; '):
+    result = map(
+        lambda v: v.title(),
+        sorted(list(set(extract_words(value))))
+    )
+    return delimiter.join(result)
+
+
 def commonprefix(l):
     # this unlike the os.path.commonprefix version
     # always returns path prefixes as it compares

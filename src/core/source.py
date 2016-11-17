@@ -180,6 +180,7 @@ class Source(object):
         result = self.post_parse(result, context)
 
         if write:
+            log.started('Writing CSV data...')
             write = sys.stdout if write is True else write
             write = open(self.realpath(write), 'w') \
                 if isinstance(write, basestring) else write

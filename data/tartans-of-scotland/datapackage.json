@@ -1,0 +1,58 @@
+{
+  "author": "Levko Kravets <levko.ne@gmail.com>",
+  "description": "Database of tartan threadcounts from Tartans of Scotland (http://www.tartans.scotland.net/)",
+  "name": "tartans-of-scotland-tartan-database",
+  "resources": [
+    {
+      "bytes": 967669,
+      "format": "CSV",
+      "headers": true,
+      "mediatype": "text/csv",
+      "name": "data",
+      "path": "data.csv",
+      "schema": {
+        "fields": [
+          {
+            "format": "default",
+            "name": "origin-id",
+            "title": "Origin ID",
+            "type": "string"
+          },
+          {
+            "format": "default",
+            "name": "name",
+            "title": "Name",
+            "type": "string"
+          },
+          {
+            "format": "default",
+            "name": "description",
+            "title": "Description",
+            "type": "string"
+          },
+          {
+            "format": "default",
+            "name": "category",
+            "title": "Category",
+            "type": "string"
+          },
+          {
+            "format": "default",
+            "name": "source",
+            "title": "Source",
+            "type": "string"
+          },
+          {
+            "format": "default",
+            "name": "origin-url",
+            "title": "Origin URL",
+            "type": "string"
+          }
+        ]
+      },
+      "title": "Data"
+    }
+  ],
+  "title": "Tartans of Scotland Tartan Database",
+  "version": "1.0.0"
+}

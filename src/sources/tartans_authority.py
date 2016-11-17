@@ -12,7 +12,7 @@ re_extract_ids = re.compile(
 re_extract_attr = re.compile(
     '<span\s+class="infotype">\s*(.*?)\s*:?\s*</span>\s*'
     '<span\s+class="info">\s*(.*?)\s*</span>',
-    re.IGNORECASE or re.UNICODE
+    re.IGNORECASE | re.UNICODE | re.DOTALL
 )
 
 # 'A'..'Z', '0-9'
@@ -25,7 +25,7 @@ attr_map = {
     'Alternative Name': 'alt_name',
     'ITI Number': 'iti_number',
     'Category': 'category',
-    'Designer / Source': 'designer',
+    'Designer / Source': 'source',
     'Date': 'date',
     'Thread Count': 'threadcount',
     'Notes': 'notes',
@@ -93,14 +93,6 @@ def normalize_threadcount(value, reflect=False):
     return ' // '.join(filter(len, result)).upper()
 
 
-def parse_category(value, delimiter='; '):
-    result = map(
-        lambda v: v.title(),
-        sorted(list(set(utils.extract_words(value))))
-    )
-    return delimiter.join(result)
-
-
 def parse_metadata(data):
     result = map(
         lambda (key, value): (
@@ -116,7 +108,9 @@ def parse_metadata(data):
     result = dict(result)
 
     if 'category' in result:
-        result['category'] = parse_category(result['category'])
+        result['category'] = utils.parse_category(result['category'])
+        if result['category'] == '':
+            result['category'] = 'Other'
 
     if 'threadcount' in result:
         result['threadcount'] = normalize_threadcount(
@@ -128,9 +122,9 @@ def parse_metadata(data):
     else:
         result['threadcount'] = ''
 
-    if 'designer' in result:
-        if result['designer'].lower() == 'unknown':
-            result['designer'] = ''
+    if 'source' in result:
+        if result['source'].lower() == 'unknown':
+            result['source'] = ''
 
     return result
 
@@ -147,18 +141,17 @@ class TartansAuthority(Source):
     ]
 
     headers = [
-        ('source', 'Source'),
-        ('id', 'Source ID'),
+        ('origin_id', 'Origin ID'),
         ('name', 'Name'),
         ('alt_name', 'Alternative Name'),
         ('iti_number', 'ITI Number'),
         ('category', 'Category'),
-        ('designer', 'Designer'),
+        ('source', 'Source'),
         ('date', 'Date'),
         ('palette', 'Palette'),
         ('threadcount', 'Threadcount'),
         ('notes', 'Notes'),
-        ('url', 'URL'),
+        ('origin_url', 'Origin URL'),
     ]
 
     host = 'http://www.tartansauthority.com'
@@ -275,11 +268,11 @@ class TartansAuthority(Source):
                 ))
                 if '%' in colors:
                     log.warning(' '.join([
-                        str(item['id']), colors, item['threadcount']
+                        str(item['origin_id']), colors, item['threadcount']
                     ]))
                 else:
                     log.notice(' '.join([
-                        'Fixed', str(item['id']), item['threadcount']
+                        'Fixed', str(item['origin_id']), item['threadcount']
                     ]))
                     item['palette'] = colors
 
@@ -292,9 +285,10 @@ class TartansAuthority(Source):
 
         result = parse_metadata(data)
 
-        result['source'] = self.name
-        result['id'] = str(item)
-        result['url'] = self.host + '/tartan-ferret/display/' + str(item) + '/'
+        result['origin_id'] = str(item)
+        result['origin_url'] = \
+            self.host + '/tartan-ferret/display/' + \
+            str(item) + '/'
 
         palette = build_palette(
             re_color_names.findall(result['threadcount']),
