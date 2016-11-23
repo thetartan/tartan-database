@@ -1,0 +1,47 @@
+[
+  {
+    "author": "Levko Kravets <levko.ne@gmail.com>",
+    "description": "Database of tartan threadcounts from Scottish Tartans Authority (http://www.tartansauthority.com/)",
+    "name": "scottish-tartans-authority-tartan-database",
+    "path": "tartans-authority/datapackage.json",
+    "title": "Scottish Tartans Authority Tartan Database",
+    "updated": "2016/11/23 19:37:07",
+    "version": "2.0.2"
+  },
+  {
+    "author": "Levko Kravets <levko.ne@gmail.com>",
+    "description": "Database of tartan threadcounts from Tartans of Scotland (http://www.tartans.scotland.net/)",
+    "name": "tartans-of-scotland-tartan-database",
+    "path": "tartans-of-scotland/datapackage.json",
+    "title": "Tartans of Scotland Tartan Database",
+    "updated": "2016/11/23 19:37:10",
+    "version": "1.0.2"
+  },
+  {
+    "author": "Levko Kravets <levko.ne@gmail.com>",
+    "description": "Database of tartan threadcounts from Scottish Register of Tartans (https://www.tartanregister.gov.uk/)",
+    "name": "scottish-register-of-tartans-tartan-database",
+    "path": "register-of-tartans/datapackage.json",
+    "title": "Scottish Register of Tartans Tartan Database",
+    "updated": "2016/11/17 18:49:23",
+    "version": "1.0.1"
+  },
+  {
+    "author": "Levko Kravets <levko.ne@gmail.com>",
+    "description": "Database of tartan threadcounts from House of Tartan (http://www.house-of-tartan.scotland.net/)",
+    "name": "house-of-tartan-tartan-database",
+    "path": "house-of-tartan/datapackage.json",
+    "title": "House of Tartan Tartan Database",
+    "updated": "2016/11/23 19:36:34",
+    "version": "2.0.2"
+  },
+  {
+    "author": "Levko Kravets <levko.ne@gmail.com>",
+    "description": "Database of tartan threadcounts from Weddslist (http://www.weddslist.com/tartans/links.html)",
+    "name": "weddslist-tartan-database",
+    "path": "weddslist/datapackage.json",
+    "title": "Weddslist Tartan Database",
+    "updated": "2016/11/23 19:36:31",
+    "version": "2.0.2"
+  }
+]

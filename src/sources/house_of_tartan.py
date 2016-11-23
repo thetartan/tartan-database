@@ -75,16 +75,42 @@ class HouseOfTartan(Source):
     ]
 
     headers = [
-        ('origin_id', 'Origin ID'),
-        ('category', 'Category'),
-        ('name', 'Name'),
-        ('palette', 'Palette'),
-        ('threadcount', 'Threadcount'),
-        ('overview', 'Overview'),
-        ('comment', 'Comment'),
-        ('copyright', 'Copyright'),
-        ('origin_url', 'Origin URL'),
+        ('origin_id', 'Origin ID', 'string'),
+        ('category', 'Category', 'string'),
+        ('name', 'Name', 'string'),
+        ('palette', 'Palette', 'string'),
+        ('threadcount', 'Threadcount', 'string'),
+        ('overview', 'Overview', 'string'),
+        ('comment', 'Comment', 'string'),
+        ('copyright', 'Copyright', 'string'),
+        ('origin_url', 'Origin URL', 'string'),
     ]
+
+    datapackageAdditionalAttributes = {
+        'attributes': [
+            {'name': 'id', 'fields': 'origin_id'},
+            {'name': 'name', 'fields': 'name'},
+            {'name': 'category', 'fields': 'category', 'split': ';'},
+            {
+                'name': 'description',
+                'fields': ['overview', 'comment', 'copyright']
+            },
+            {'name': 'url', 'fields': 'origin_url'},
+
+            {
+                'name': 'sett',
+                'fields': ['palette', 'threadcount'],
+                'join': '\n'
+            },
+
+            {'name': 'palette', 'fields': 'palette'},
+            {'name': 'threadcount', 'fields': 'threadcount'},
+
+            {'name': 'overview', 'fields': 'overview'},
+            {'name': 'comment', 'fields': 'comment'},
+            {'name': 'copyright', 'fields': 'copyright'},
+        ]
+    }
 
     host = 'http://www.house-of-tartan.scotland.net'
     url = 'http://www.house-of-tartan.scotland.net/'

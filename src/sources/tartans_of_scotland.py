@@ -35,13 +35,23 @@ class TartansOfScotland(Source):
     ]
 
     headers = [
-        ('origin_id', 'Origin ID'),
-        ('name', 'Name'),
-        ('description', 'Description'),
-        ('category', 'Category'),
-        ('source', 'Source'),
-        ('origin_url', 'Origin URL'),
+        ('origin_id', 'Origin ID', 'string'),
+        ('name', 'Name', 'string'),
+        ('description', 'Description', 'string'),
+        ('category', 'Category', 'string'),
+        ('source', 'Source', 'string'),
+        ('origin_url', 'Origin URL', 'string'),
     ]
+
+    datapackageAdditionalAttributes = {
+        'attributes': [
+            {'name': 'id', 'fields': 'origin_id'},
+            {'name': 'name', 'fields': 'name'},
+            {'name': 'category', 'fields': 'category', 'split': ';'},
+            {'name': 'description', 'fields': ['description', 'source']},
+            {'name': 'url', 'fields': 'origin_url'},
+        ]
+    }
 
     host = 'http://www.tartans.scotland.net'
     url = 'http://www.tartans.scotland.net/'

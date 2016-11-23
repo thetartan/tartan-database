@@ -86,7 +86,7 @@ re_extract_threadcount_block = re.compile(
 )
 
 re_extract_threadcount = re.compile(
-    '<tr[^>]*?>.*?href="tartanDetails\.aspx\?ref=([0-9]+)".*?'
+    '<tr[^>]*?>.*?href="tartanDetails\.aspx\?ref=([0-9]+)".*?>(.+?)</a>.*?'
     '<td>(.*?)</td>.*?</tr>',
     re.IGNORECASE | re.DOTALL | re.UNICODE
 )
@@ -146,7 +146,6 @@ def normalize_palette(value):
 def normalize_threadcount(value, reflect=False):
     result = map(
         lambda v: re.sub('[^a-zA-Z0-9]+', '', v),
-        # not sure if there are tartans with different warp and weft
         value.strip('.').split('.')
     )
     if reflect:
@@ -165,7 +164,14 @@ def normalize_threadcount(value, reflect=False):
 
 def parse_threadcount(item, data):
     data = ''.join(re_extract_threadcount_block.findall(data))
-    result = dict(re_extract_threadcount.findall(data)).get(str(item), '')
+    result = dict(map(
+        lambda x: (x[0], (x[1], x[2])),
+        re_extract_threadcount.findall(data)
+    )).get(str(item), '')
+
+    name = result[0]
+    result = result[1]
+
     result = filter(
         bool,
         re.sub('<br>', '%%', result, flags=re.IGNORECASE).split('%%')
@@ -186,6 +192,7 @@ def parse_threadcount(item, data):
         palette = ''
 
     return {
+        'name': utils.cleanup(name.decode('utf-8')),
         'threadcount': threadcount,
         'palette': normalize_palette(palette),
     }
@@ -203,22 +210,50 @@ class RegisterOfTartans(Source):
     ]
 
     headers = [
-        ('origin_id', 'Origin ID'),
-        ('category', 'Category'),
-        ('palette', 'Palette'),
-        ('threadcount', 'Threadcount'),
-        ('restrictions', 'Restrictions'),
-        ('source', 'Source'),
-        ('sta_ref', 'STA Reference'),
-        ('stwr_ref', 'STWR Reference'),
-        ('woven_sample', 'Wowen Sample'),
-        ('notes', 'Notes'),
-        ('date', 'Date'),
-        ('comment', 'Comment'),
-        ('registration_date', 'Registration Date'),
-        ('registrant_details', 'Registrant details'),
-        ('origin_url', 'Origin URL'),
+        ('origin_id', 'Origin ID', 'string'),
+        ('category', 'Category', 'string'),
+        ('name', 'Name', 'string'),
+        ('palette', 'Palette', 'string'),
+        ('threadcount', 'Threadcount', 'string'),
+        ('restrictions', 'Restrictions', 'string'),
+        ('source', 'Source', 'string'),
+        ('sta_ref', 'STA Reference', 'string'),
+        ('stwr_ref', 'STWR Reference', 'string'),
+        ('woven_sample', 'Wowen Sample', 'string'),
+        ('notes', 'Notes', 'string'),
+        ('date', 'Date', 'string'),
+        ('comment', 'Comment', 'string'),
+        ('registration_date', 'Registration Date', 'string'),
+        ('registrant_details', 'Registrant details', 'string'),
+        ('origin_url', 'Origin URL', 'string'),
     ]
+
+    datapackageAdditionalAttributes = {
+        'attributes': [
+            {'name': 'id', 'fields': 'origin_id'},
+            {'name': 'name', 'fields': 'name'},
+            {'name': 'alternativeName', 'fields': 'alt_name'},
+            {'name': 'category', 'fields': 'category', 'split': ';'},
+            {'name': 'url', 'fields': 'origin_url'},
+            {
+                'name': 'description',
+                'fields': ['comment', 'notes', 'restrictions', 'woven_sample']
+            },
+            {
+                'name': 'sett',
+                'fields': ['palette', 'threadcount'],
+                'join': '\n'
+            },
+            {'name': 'palette', 'fields': 'palette'},
+            {'name': 'threadcount', 'fields': 'threadcount'},
+
+            {'name': 'STAReference', 'fields': 'sta_ref'},
+            {'name': 'STWRReference', 'fields': 'stwr_ref'},
+            {'name': 'date', 'fields': 'date'},
+            {'name': 'registrationDate', 'fields': 'registration_date'},
+            {'name': 'registrantDetails', 'fields': 'registrant_details'},
+        ]
+    }
 
     host = 'https://www.tartanregister.gov.uk'
     url = 'https://www.tartanregister.gov.uk/'
@@ -328,6 +363,11 @@ class RegisterOfTartans(Source):
     def get_session(self, item=None):
         session = requests.Session()
         session.mount('https://', ForceTLSV1Adapter())
+        session.headers.update({
+            'User-Agent':
+                'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 '
+                '(KHTML, like Gecko) Chrome/54.0.2840.59 Safari/537.36'
+        })
 
         if item:
             session.is_logged_in = True
@@ -423,6 +463,7 @@ class RegisterOfTartans(Source):
             self.host + '/tartanDetails.aspx?ref=' + str(item)
 
         data = self.file_get('threadcount/' + str(item).zfill(6) + '.html')
+        # `name` is also parsed here!
         result.update(parse_threadcount(item, data))
 
         return [result]

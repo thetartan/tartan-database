@@ -24,7 +24,10 @@ class Source(object):
 
     folders = []  # folders to be created automatically
 
-    headers = [] # CSV file headers
+    headers = []  # CSV file headers
+
+    # Additional attributes to add to datapackage file
+    datapackageAdditionalAttributes = {}
 
     url = None
 
@@ -206,7 +209,7 @@ class Source(object):
 
         return result
 
-    def update_datapackage(self, datafile='data.csv', additional_meta=None):
+    def update_datapackage(self, datafile='data.csv'):
         log.header(self.name)
         if self.description != '':
             log.subheader(self.description)
@@ -228,9 +231,8 @@ class Source(object):
             'name', datapackage.title_to_name(package['title'])
         )
 
-        if additional_meta is not None:
-            for key in additional_meta:
-                package[key] = additional_meta[key]
+        if isinstance(self.datapackageAdditionalAttributes, dict):
+            package.update(self.datapackageAdditionalAttributes)
 
         url = self.url if isinstance(self.url, basestring) else ''
         url = ' (' + url + ')' if url != '' else ''
@@ -249,7 +251,7 @@ class Source(object):
 
         package['updated'] = utils.now()
         resource = datapackage.create_resource(
-            self.realpath(datafile)
+            self.realpath(datafile), headers=self.headers, title=self.name
         )
         if resource is not None:
             prefix = utils.commonprefix([

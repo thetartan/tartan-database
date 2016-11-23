@@ -1,4 +1,5 @@
 import os
+import json
 import argparse
 from src.sources.weddslist import Weddslist
 from src.sources.house_of_tartan import HouseOfTartan
@@ -44,15 +45,38 @@ def get_cli_args():
         help='update datapackage.json file(s).'
     )
     parser.add_argument(
-        'sources', action='store', nargs='+',
-        choices=sorted(source_classes.keys()),
+        '-i', '--index', dest='index', action='store_true',
+        help='update dataset index (index.json file).'
+    )
+    parser.add_argument(
+        'sources', action='store', nargs='*', default='',
+        choices=sorted(source_classes.keys() + ['']),
         help='source names' if wrapper is None else argparse.SUPPRESS
     )
 
     args = parser.parse_args()
     if args.grab_options is None:
         args.grab_options = []
+
+    if args.sources == '':
+        args.sources = []
+
     return args
+
+
+def update_index(sources):
+    index = []
+    for source in sources:
+        with open('data/' + source + '/datapackage.json', 'r') as f:
+            datapackage = json.load(f)
+        # Remove some props
+        datapackage.pop('resources', None)
+        datapackage.pop('attributes', None)
+        datapackage['path'] = source + '/datapackage.json'
+        index.append(datapackage)
+
+    with open('data/index.json', 'w') as f:
+        json.dump(index, f, sort_keys=True, indent=2, separators=(',', ': '))
 
 
 def process_sources(args):
@@ -65,6 +89,9 @@ def process_sources(args):
             source.parse()
         if args.datapackage:
             source.update_datapackage()
+
+    if args.index:
+        update_index(source_classes.keys())
 
 
 process_sources(get_cli_args())

@@ -10,7 +10,10 @@ class Writer:
     writer = None
 
     def __init__(self, headers, file=sys.stdout):
-        self.headers = headers
+        self.headers = map(
+            lambda x: x[0:2],
+            headers
+        )
         self.file = file
         self.writer = csv.writer(
             file,

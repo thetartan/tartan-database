@@ -6,7 +6,7 @@ ident='tartans_of_scotland'
 if mkdir -p storage/${ident}
 then
   cp data/${name}/datapackage.json storage/${ident}/datapackage.json 2>/dev/null
-  __CLI_TOOL_WRAPPER=$0 /usr/bin/env python cli.py ${name} $*
+  __CLI_TOOL_WRAPPER=$0 /usr/bin/env python cli.py --index ${name} $*
 
   mkdir -p data/${name}
   cp storage/${ident}/data.csv data/${name} 2>/dev/null

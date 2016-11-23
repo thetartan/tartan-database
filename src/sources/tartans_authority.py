@@ -150,18 +150,40 @@ class TartansAuthority(Source):
     ]
 
     headers = [
-        ('origin_id', 'Origin ID'),
-        ('name', 'Name'),
-        ('alt_name', 'Alternative Name'),
-        ('iti_number', 'ITI Number'),
-        ('category', 'Category'),
-        ('source', 'Source'),
-        ('date', 'Date'),
-        ('palette', 'Palette'),
-        ('threadcount', 'Threadcount'),
-        ('notes', 'Notes'),
-        ('origin_url', 'Origin URL'),
+        ('origin_id', 'Origin ID', 'string'),
+        ('name', 'Name', 'string'),
+        ('alt_name', 'Alternative Name', 'string'),
+        ('iti_number', 'ITI Number', 'string'),
+        ('category', 'Category', 'string'),
+        ('source', 'Source', 'string'),
+        ('date', 'Date', 'string'),
+        ('palette', 'Palette', 'string'),
+        ('threadcount', 'Threadcount', 'string'),
+        ('notes', 'Notes', 'string'),
+        ('origin_url', 'Origin URL', 'string'),
     ]
+
+    datapackageAdditionalAttributes = {
+        'attributes': [
+            {'name': 'id', 'fields': 'origin_id'},
+            {'name': 'name', 'fields': 'name'},
+            {'name': 'alternativeName', 'fields': 'alt_name'},
+            {'name': 'category', 'fields': 'category', 'split': ';'},
+            {'name': 'url', 'fields': 'origin_url'},
+            {'name': 'description', 'fields': ['notes', 'source']},
+
+            {
+                'name': 'sett',
+                'fields': ['palette', 'threadcount'],
+                'join': '\n'
+            },
+            {'name': 'palette', 'fields': 'palette'},
+            {'name': 'threadcount', 'fields': 'threadcount'},
+
+            {'name': 'ITINumber', 'fields': 'iti_number'},
+            {'name': 'date', 'fields': 'date'},
+        ]
+    }
 
     host = 'http://www.tartansauthority.com'
     username = 'pebox@stromox.com'

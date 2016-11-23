@@ -1,4 +1,59 @@
 {
+  "attributes": [
+    {
+      "fields": "origin_id",
+      "name": "id"
+    },
+    {
+      "fields": "name",
+      "name": "name"
+    },
+    {
+      "fields": "category",
+      "name": "category",
+      "split": ";"
+    },
+    {
+      "fields": [
+        "overview",
+        "comment",
+        "copyright"
+      ],
+      "name": "description"
+    },
+    {
+      "fields": "origin_url",
+      "name": "url"
+    },
+    {
+      "fields": [
+        "palette",
+        "threadcount"
+      ],
+      "join": "\n",
+      "name": "sett"
+    },
+    {
+      "fields": "palette",
+      "name": "palette"
+    },
+    {
+      "fields": "threadcount",
+      "name": "threadcount"
+    },
+    {
+      "fields": "overview",
+      "name": "overview"
+    },
+    {
+      "fields": "comment",
+      "name": "comment"
+    },
+    {
+      "fields": "copyright",
+      "name": "copyright"
+    }
+  ],
   "author": "Levko Kravets <levko.ne@gmail.com>",
   "description": "Database of tartan threadcounts from House of Tartan (http://www.house-of-tartan.scotland.net/)",
   "name": "house-of-tartan-tartan-database",
@@ -8,13 +63,13 @@
       "format": "CSV",
       "headers": true,
       "mediatype": "text/csv",
-      "name": "data",
+      "name": "house-of-tartan",
       "path": "data.csv",
       "schema": {
         "fields": [
           {
             "format": "default",
-            "name": "origin-id",
+            "name": "origin_id",
             "title": "Origin ID",
             "type": "string"
           },
@@ -62,16 +117,16 @@
           },
           {
             "format": "default",
-            "name": "origin-url",
+            "name": "origin_url",
             "title": "Origin URL",
             "type": "string"
           }
         ]
       },
-      "title": "Data"
+      "title": "House of Tartan"
     }
   ],
   "title": "House of Tartan Tartan Database",
-  "updated": "2016/11/17 18:49:21",
-  "version": "2.0.1"
+  "updated": "2016/11/23 19:36:34",
+  "version": "2.0.2"
 }

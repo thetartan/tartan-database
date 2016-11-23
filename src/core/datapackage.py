@@ -5,7 +5,7 @@ import csv
 import utils
 
 
-def get_schema_fields(filename):
+def get_csv_headers(filename):
     with open(filename) as f:
         if f.read(3) != utils.BOM:
             f.seek(0)
@@ -16,15 +16,7 @@ def get_schema_fields(filename):
         row = next(reader, None)
     if row is None:
         return None
-    return map(
-        lambda x: {
-            'name': title_to_name(x),
-            'title': x,
-            'type': 'string',
-            'format': 'default'
-        },
-        row
-    )
+    return map(lambda x: (x, title_to_name(x)), row)
 
 
 def title_to_name(value):
@@ -34,21 +26,41 @@ def title_to_name(value):
     return value.strip('-').strip('_')
 
 
-def create_resource(filename):
-    title = ntpath.splitext(ntpath.basename(filename))[0].strip()
-    title = re.sub('[-_]+', ' ', title).title()
-    fields = get_schema_fields(filename)
-    if fields is None:
+def create_resource(datafile, **kwargs):
+    name = kwargs.get('name', '')
+    if name == '':
+        name = title_to_name(kwargs.get('title', ''))
+    if name == '':
+        name = ntpath.splitext(ntpath.basename(datafile))[0].strip()
+    title = kwargs.get('title', '')
+    if title == '':
+        title = name
+        title = re.sub('[-_]+', ' ', title).title()
+
+    headers = kwargs.get('headers', None)
+    if headers is None:
+        headers = get_csv_headers(datafile)
+    if headers is None:
         return None
     return {
-        'name': title_to_name(title),
+        'name': name,
         'title': title,
-        'path': filename,
+        'path': datafile,
         'format': 'CSV',
         'mediatype': 'text/csv',
-        'bytes': os.stat(filename).st_size,
+        'bytes': os.stat(datafile).st_size,
         'schema': {
-            'fields': fields
+            'fields': map(
+                lambda (index, row): {
+                    'name': row[0],
+                    'title': row[1],
+                    'type':
+                        headers[index][2] if len(headers[index]) > 2
+                        else 'string',
+                    'format': 'default'
+                },
+                enumerate(headers)
+            )
         }
     }
 
