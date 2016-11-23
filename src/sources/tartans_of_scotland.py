@@ -13,6 +13,11 @@ re_extract_image = re.compile(
     re.IGNORECASE
 )
 
+re_extract_name = re.compile(
+    '<span class="mainheader">(.*?)</span>',
+    re.IGNORECASE | re.DOTALL
+)
+
 re_extract_attr = re.compile(
     '<td\s+class="maintext(_nojust)?"[^>]*>(.*?)</td>',
     re.IGNORECASE | re.DOTALL
@@ -37,6 +42,7 @@ class TartansOfScotland(Source):
     headers = [
         ('origin_id', 'Origin ID', 'string'),
         ('name', 'Name', 'string'),
+        ('alt_name', 'Alternative Name', 'string'),
         ('description', 'Description', 'string'),
         ('category', 'Category', 'string'),
         ('source', 'Source', 'string'),
@@ -47,6 +53,7 @@ class TartansOfScotland(Source):
         'attributes': [
             {'name': 'id', 'fields': 'origin_id'},
             {'name': 'name', 'fields': 'name'},
+            {'name': 'alternativeName', 'fields': 'alt_name'},
             {'name': 'category', 'fields': 'category', 'split': ';'},
             {'name': 'description', 'fields': ['description', 'source']},
             {'name': 'url', 'fields': 'origin_url'},
@@ -117,15 +124,20 @@ class TartansOfScotland(Source):
         )
 
     def extract_items(self, item, context):
+        log.message('Parsing ' + str(item) + '...')
         data = self.file_get('grabbed/' + str(item).zfill(6) + '.html')
 
         result = dict(zip(
-            ['name', 'description', 'source'],
+            ['alt_name', 'description', 'source'],
             filter(bool, map(
                 lambda v: utils.cleanup(v[1]),
                 re_extract_attr.findall(data)
             ))
         ))
+
+        name = re_extract_name.findall(data)
+        if len(name) > 0:
+            result['name'] = utils.cleanup(' '.join(name[-1:]))
 
         if result.get('name', '') == '':
             log.error('item without name: ' + log.BOLD + str(item) + log.END)

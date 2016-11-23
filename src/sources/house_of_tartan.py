@@ -12,7 +12,7 @@ re_extract_ids = re.compile(
 catalogue_index = [chr(i) for i in range(ord('a'), ord('z') + 1)]
 
 re_extract_attr = re.compile(
-    '<div class="(title|ftr-hdr|ftr-txt|ftr-cpy)">(.*)</div>',
+    '<div class="(title|ftr-hdr|ftr-txt|ftr-cpy)">(.*?)</div>',
     re.IGNORECASE | re.DOTALL)
 
 re_extract_pattern = re.compile(

@@ -9,6 +9,10 @@
       "name": "name"
     },
     {
+      "fields": "alt_name",
+      "name": "alternativeName"
+    },
+    {
       "fields": "category",
       "name": "category",
       "split": ";"
@@ -30,7 +34,7 @@
   "name": "tartans-of-scotland-tartan-database",
   "resources": [
     {
-      "bytes": 967669,
+      "bytes": 1007864,
       "format": "CSV",
       "headers": true,
       "mediatype": "text/csv",
@@ -48,6 +52,12 @@
             "format": "default",
             "name": "name",
             "title": "Name",
+            "type": "string"
+          },
+          {
+            "format": "default",
+            "name": "alt_name",
+            "title": "Alternative Name",
             "type": "string"
           },
           {
@@ -80,6 +90,6 @@
     }
   ],
   "title": "Tartans of Scotland Tartan Database",
-  "updated": "2016/11/23 19:37:10",
-  "version": "1.0.2"
+  "updated": "2016/11/23 22:36:02",
+  "version": "1.1.1"
 }
