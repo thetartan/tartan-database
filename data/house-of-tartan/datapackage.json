@@ -56,6 +56,11 @@
   ],
   "author": "Levko Kravets <levko.ne@gmail.com>",
   "description": "Database of tartan threadcounts from House of Tartan (http://www.house-of-tartan.scotland.net/)",
+  "license": {
+    "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/",
+    "type": "CC BY-NC-ND 4.0",
+    "title": "Creative Commons Non-Commercial No-Derivatives"
+  },
   "name": "house-of-tartan-tartan-database",
   "resources": [
     {

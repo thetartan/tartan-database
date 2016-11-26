@@ -55,6 +55,11 @@
   ],
   "author": "Levko Kravets <levko.ne@gmail.com>",
   "description": "Database of tartan threadcounts from Scottish Tartans Authority (http://www.tartansauthority.com/)",
+  "license": {
+    "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/",
+    "type": "CC BY-NC-ND 4.0",
+    "title": "Creative Commons Non-Commercial No-Derivatives"
+  },
   "name": "scottish-tartans-authority-tartan-database",
   "resources": [
     {

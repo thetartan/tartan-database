@@ -69,6 +69,11 @@
   ],
   "author": "Levko Kravets <levko.ne@gmail.com>",
   "description": "Database of tartan threadcounts from Scottish Register of Tartans (https://www.tartanregister.gov.uk/)",
+  "license": {
+    "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/",
+    "type": "CC BY-NC-ND 4.0",
+    "title": "Creative Commons Non-Commercial No-Derivatives"
+  },
   "name": "scottish-register-of-tartans-tartan-database",
   "resources": [
     {
