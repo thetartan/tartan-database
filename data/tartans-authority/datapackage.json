@@ -1,64 +1,55 @@
 {
-  "attributes": [
-    {
-      "fields": "origin_id",
-      "name": "id"
-    },
-    {
-      "fields": "name",
-      "name": "name"
-    },
-    {
-      "fields": "alt_name",
-      "name": "alternativeName"
-    },
-    {
-      "fields": "category",
-      "name": "category",
-      "split": ";"
-    },
-    {
-      "fields": "origin_url",
-      "name": "url"
-    },
-    {
-      "fields": [
-        "notes",
-        "source"
-      ],
-      "name": "description"
-    },
-    {
-      "fields": [
-        "palette",
-        "threadcount"
-      ],
-      "join": "\n",
-      "name": "sett"
-    },
-    {
-      "fields": "palette",
-      "name": "palette"
-    },
-    {
-      "fields": "threadcount",
-      "name": "threadcount"
-    },
-    {
-      "fields": "iti_number",
-      "name": "ITINumber"
-    },
-    {
-      "fields": "date",
-      "name": "date"
-    }
-  ],
+  "attributes": {
+    "ITINumber": "iti_number",
+    "alternativeName": "alt_name",
+    "category": [
+      {
+        "fields": "category"
+      },
+      {
+        "join": ";"
+      },
+      {
+        "split": ";"
+      },
+      "trim",
+      "unique",
+      {
+        "sort": "asc"
+      }
+    ],
+    "date": "date",
+    "description": [
+      {
+        "fields": [
+          "notes",
+          "source"
+        ]
+      }
+    ],
+    "id": "origin_id",
+    "name": "name",
+    "palette": "palette",
+    "sett": [
+      {
+        "fields": [
+          "palette",
+          "threadcount"
+        ]
+      },
+      {
+        "join": "\n"
+      }
+    ],
+    "threadcount": "threadcount",
+    "url": "origin_url"
+  },
   "author": "Levko Kravets <levko.ne@gmail.com>",
   "description": "Database of tartan threadcounts from Scottish Tartans Authority (http://www.tartansauthority.com/)",
   "license": {
-    "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/",
+    "title": "Creative Commons Non-Commercial No-Derivatives",
     "type": "CC BY-NC-ND 4.0",
-    "title": "Creative Commons Non-Commercial No-Derivatives"
+    "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/"
   },
   "name": "scottish-tartans-authority-tartan-database",
   "resources": [
@@ -143,6 +134,6 @@
     }
   ],
   "title": "Scottish Tartans Authority Tartan Database",
-  "updated": "2016/11/23 19:37:07",
-  "version": "2.0.2"
+  "updated": "2016/11/30 20:38:30",
+  "version": "2.0.3"
 }

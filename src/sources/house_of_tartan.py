@@ -87,29 +87,34 @@ class HouseOfTartan(Source):
     ]
 
     datapackageAdditionalAttributes = {
-        'attributes': [
-            {'name': 'id', 'fields': 'origin_id'},
-            {'name': 'name', 'fields': 'name'},
-            {'name': 'category', 'fields': 'category', 'split': ';'},
-            {
-                'name': 'description',
-                'fields': ['overview', 'comment', 'copyright']
-            },
-            {'name': 'url', 'fields': 'origin_url'},
+        'attributes': {
+            'id': 'origin_id',
+            'name': 'name',
+            'category': [
+                {'fields': 'category'},
+                {'join': ';'},
+                {'split': ';'},
+                'trim',
+                'unique',
+                {'sort': 'asc'},
+            ],
+            'description': [
+                {'fields': ['overview', 'comment', 'copyright']},
+            ],
+            'url': 'origin_url',
 
-            {
-                'name': 'sett',
-                'fields': ['palette', 'threadcount'],
-                'join': '\n'
-            },
+            'sett': [
+                {'fields': ['palette', 'threadcount']},
+                {'join': '\n'},
+            ],
 
-            {'name': 'palette', 'fields': 'palette'},
-            {'name': 'threadcount', 'fields': 'threadcount'},
+            'palette': 'palette',
+            'threadcount': 'threadcount',
 
-            {'name': 'overview', 'fields': 'overview'},
-            {'name': 'comment', 'fields': 'comment'},
-            {'name': 'copyright', 'fields': 'copyright'},
-        ]
+            'overview': 'overview',
+            'comment': 'comment',
+            'copyright': 'copyright',
+        }
     }
 
     host = 'http://www.house-of-tartan.scotland.net'

@@ -229,30 +229,36 @@ class RegisterOfTartans(Source):
     ]
 
     datapackageAdditionalAttributes = {
-        'attributes': [
-            {'name': 'id', 'fields': 'origin_id'},
-            {'name': 'name', 'fields': 'name'},
-            {'name': 'alternativeName', 'fields': 'alt_name'},
-            {'name': 'category', 'fields': 'category', 'split': ';'},
-            {'name': 'url', 'fields': 'origin_url'},
-            {
-                'name': 'description',
-                'fields': ['comment', 'notes', 'restrictions', 'woven_sample']
-            },
-            {
-                'name': 'sett',
-                'fields': ['palette', 'threadcount'],
-                'join': '\n'
-            },
-            {'name': 'palette', 'fields': 'palette'},
-            {'name': 'threadcount', 'fields': 'threadcount'},
+        'attributes': {
+            'id': 'origin_id',
+            'name': 'name',
+            'alternativeName': 'alt_name',
+            'category': [
+                {'fields': 'category'},
+                {'join': ';'},
+                {'split': ';'},
+                'trim',
+                'unique',
+                {'sort': 'asc'},
+            ],
+            'url': 'origin_url',
+            'description': [
+                {'fields': ['comment', 'notes', 'restrictions',
+                            'woven_sample']},
+            ],
+            'sett': [
+                {'fields': ['palette', 'threadcount']},
+                {'join': '\n'},
+            ],
+            'palette': 'palette',
+            'threadcount': 'threadcount',
 
-            {'name': 'STAReference', 'fields': 'sta_ref'},
-            {'name': 'STWRReference', 'fields': 'stwr_ref'},
-            {'name': 'date', 'fields': 'date'},
-            {'name': 'registrationDate', 'fields': 'registration_date'},
-            {'name': 'registrantDetails', 'fields': 'registrant_details'},
-        ]
+            'STAReference': 'sta_ref',
+            'STWRReference': 'stwr_ref',
+            'date': 'date',
+            'registrationDate': 'registration_date',
+            'registrantDetails': 'registrant_details',
+        }
     }
 
     host = 'https://www.tartanregister.gov.uk'

@@ -1,78 +1,60 @@
 {
-  "attributes": [
-    {
-      "fields": "origin_id",
-      "name": "id"
-    },
-    {
-      "fields": "name",
-      "name": "name"
-    },
-    {
-      "fields": "alt_name",
-      "name": "alternativeName"
-    },
-    {
-      "fields": "category",
-      "name": "category",
-      "split": ";"
-    },
-    {
-      "fields": "origin_url",
-      "name": "url"
-    },
-    {
-      "fields": [
-        "comment",
-        "notes",
-        "restrictions",
-        "woven_sample"
-      ],
-      "name": "description"
-    },
-    {
-      "fields": [
-        "palette",
-        "threadcount"
-      ],
-      "join": "\n",
-      "name": "sett"
-    },
-    {
-      "fields": "palette",
-      "name": "palette"
-    },
-    {
-      "fields": "threadcount",
-      "name": "threadcount"
-    },
-    {
-      "fields": "sta_ref",
-      "name": "STAReference"
-    },
-    {
-      "fields": "stwr_ref",
-      "name": "STWRReference"
-    },
-    {
-      "fields": "date",
-      "name": "date"
-    },
-    {
-      "fields": "registration_date",
-      "name": "registrationDate"
-    },
-    {
-      "fields": "registrant_details",
-      "name": "registrantDetails"
-    }
-  ],
+  "attributes": {
+    "STAReference": "sta_ref",
+    "STWRReference": "stwr_ref",
+    "alternativeName": "alt_name",
+    "category": [
+      {
+        "fields": "category"
+      },
+      {
+        "join": ";"
+      },
+      {
+        "split": ";"
+      },
+      "trim",
+      "unique",
+      {
+        "sort": "asc"
+      }
+    ],
+    "date": "date",
+    "description": [
+      {
+        "fields": [
+          "comment",
+          "notes",
+          "restrictions",
+          "woven_sample"
+        ]
+      }
+    ],
+    "id": "origin_id",
+    "name": "name",
+    "palette": "palette",
+    "registrantDetails": "registrant_details",
+    "registrationDate": "registration_date",
+    "sett": [
+      {
+        "fields": [
+          "palette",
+          "threadcount"
+        ]
+      },
+      {
+        "join": "\n"
+      }
+    ],
+    "threadcount": "threadcount",
+    "url": "origin_url"
+  },
   "author": "Levko Kravets <levko.ne@gmail.com>",
   "description": "Database of tartan threadcounts from Scottish Register of Tartans (https://www.tartanregister.gov.uk/)",
   "license": {
-    "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/",
+    "title": "Creative Commons Non-Commercial No-Derivatives",
     "type": "CC BY-NC-ND 4.0",
-    "title": "Creative Commons Non-Commercial No-Derivatives"
+    "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/"
   },
   "name": "scottish-register-of-tartans-tartan-database",
   "resources": [
@@ -187,6 +169,6 @@
     }
   ],
   "title": "Scottish Register of Tartans Tartan Database",
-  "updated": "2016/11/23 19:37:29",
-  "version": "1.0.2"
+  "updated": "2016/11/30 20:38:31",
+  "version": "1.0.3"
 }

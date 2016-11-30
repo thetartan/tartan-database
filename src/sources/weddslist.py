@@ -138,19 +138,25 @@ class Weddslist(Source):
     ]
 
     datapackageAdditionalAttributes = {
-        'attributes': [
-            {'name': 'name', 'fields': 'name'},
-            {'name': 'category', 'fields': 'category', 'split': ';'},
-            {'name': 'url', 'fields': 'origin_url'},
+        'attributes': {
+            'name': 'name',
+            'category': [
+                {'fields': 'category'},
+                {'join': ';'},
+                {'split': ';'},
+                'trim',
+                'unique',
+                {'sort': 'asc'},
+            ],
+            'url': 'origin_url',
 
-            {
-                'name': 'sett',
-                'fields': ['palette', 'threadcount'],
-                'join': '\n'
-            },
-            {'name': 'palette', 'fields': 'palette'},
-            {'name': 'threadcount', 'fields': 'threadcount'},
-        ]
+            'sett': [
+                {'fields': ['palette', 'threadcount']},
+                {'join': '\n'},
+            ],
+            'palette': 'palette',
+            'threadcount': 'threadcount',
+        }
     }
 
     url = 'http://www.weddslist.com/tartans/links.html'

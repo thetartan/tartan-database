@@ -164,25 +164,33 @@ class TartansAuthority(Source):
     ]
 
     datapackageAdditionalAttributes = {
-        'attributes': [
-            {'name': 'id', 'fields': 'origin_id'},
-            {'name': 'name', 'fields': 'name'},
-            {'name': 'alternativeName', 'fields': 'alt_name'},
-            {'name': 'category', 'fields': 'category', 'split': ';'},
-            {'name': 'url', 'fields': 'origin_url'},
-            {'name': 'description', 'fields': ['notes', 'source']},
+        'attributes': {
+            'id': 'origin_id',
+            'name': 'name',
+            'alternativeName': 'alt_name',
+            'category': [
+                {'fields': 'category'},
+                {'join': ';'},
+                {'split': ';'},
+                'trim',
+                'unique',
+                {'sort': 'asc'},
+            ],
+            'url': 'origin_url',
+            'description': [
+                {'fields': ['notes', 'source']},
+            ],
 
-            {
-                'name': 'sett',
-                'fields': ['palette', 'threadcount'],
-                'join': '\n'
-            },
-            {'name': 'palette', 'fields': 'palette'},
-            {'name': 'threadcount', 'fields': 'threadcount'},
+            'sett': [
+                {'fields': ['palette', 'threadcount']},
+                {'join': '\n'},
+            ],
+            'palette': 'palette',
+            'threadcount': 'threadcount',
 
-            {'name': 'ITINumber', 'fields': 'iti_number'},
-            {'name': 'date', 'fields': 'date'},
-        ]
+            'ITINumber': 'iti_number',
+            'date': 'date',
+        }
     }
 
     host = 'http://www.tartansauthority.com'

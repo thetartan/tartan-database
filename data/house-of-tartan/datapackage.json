@@ -1,65 +1,56 @@
 {
-  "attributes": [
-    {
-      "fields": "origin_id",
-      "name": "id"
-    },
-    {
-      "fields": "name",
-      "name": "name"
-    },
-    {
-      "fields": "category",
-      "name": "category",
-      "split": ";"
-    },
-    {
-      "fields": [
-        "overview",
-        "comment",
-        "copyright"
-      ],
-      "name": "description"
-    },
-    {
-      "fields": "origin_url",
-      "name": "url"
-    },
-    {
-      "fields": [
-        "palette",
-        "threadcount"
-      ],
-      "join": "\n",
-      "name": "sett"
-    },
-    {
-      "fields": "palette",
-      "name": "palette"
-    },
-    {
-      "fields": "threadcount",
-      "name": "threadcount"
-    },
-    {
-      "fields": "overview",
-      "name": "overview"
-    },
-    {
-      "fields": "comment",
-      "name": "comment"
-    },
-    {
-      "fields": "copyright",
-      "name": "copyright"
-    }
-  ],
+  "attributes": {
+    "category": [
+      {
+        "fields": "category"
+      },
+      {
+        "join": ";"
+      },
+      {
+        "split": ";"
+      },
+      "trim",
+      "unique",
+      {
+        "sort": "asc"
+      }
+    ],
+    "comment": "comment",
+    "copyright": "copyright",
+    "description": [
+      {
+        "fields": [
+          "overview",
+          "comment",
+          "copyright"
+        ]
+      }
+    ],
+    "id": "origin_id",
+    "name": "name",
+    "overview": "overview",
+    "palette": "palette",
+    "sett": [
+      {
+        "fields": [
+          "palette",
+          "threadcount"
+        ]
+      },
+      {
+        "join": "\n"
+      }
+    ],
+    "threadcount": "threadcount",
+    "url": "origin_url"
+  },
   "author": "Levko Kravets <levko.ne@gmail.com>",
   "description": "Database of tartan threadcounts from House of Tartan (http://www.house-of-tartan.scotland.net/)",
   "license": {
-    "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/",
+    "title": "Creative Commons Non-Commercial No-Derivatives",
     "type": "CC BY-NC-ND 4.0",
-    "title": "Creative Commons Non-Commercial No-Derivatives"
+    "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/"
   },
   "name": "house-of-tartan-tartan-database",
   "resources": [
@@ -132,6 +123,6 @@
     }
   ],
   "title": "House of Tartan Tartan Database",
-  "updated": "2016/11/23 22:36:29",
-  "version": "2.0.3"
+  "updated": "2016/11/30 20:38:30",
+  "version": "2.0.4"
 }

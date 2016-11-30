@@ -1,41 +1,43 @@
 {
-  "attributes": [
-    {
-      "fields": "name",
-      "name": "name"
-    },
-    {
-      "fields": "category",
-      "name": "category",
-      "split": ";"
-    },
-    {
-      "fields": "origin_url",
-      "name": "url"
-    },
-    {
-      "fields": [
-        "palette",
-        "threadcount"
-      ],
-      "join": "\n",
-      "name": "sett"
-    },
-    {
-      "fields": "palette",
-      "name": "palette"
-    },
-    {
-      "fields": "threadcount",
-      "name": "threadcount"
-    }
-  ],
+  "attributes": {
+    "category": [
+      {
+        "fields": "category"
+      },
+      {
+        "join": ";"
+      },
+      {
+        "split": ";"
+      },
+      "trim",
+      "unique",
+      {
+        "sort": "asc"
+      }
+    ],
+    "name": "name",
+    "palette": "palette",
+    "sett": [
+      {
+        "fields": [
+          "palette",
+          "threadcount"
+        ]
+      },
+      {
+        "join": "\n"
+      }
+    ],
+    "threadcount": "threadcount",
+    "url": "origin_url"
+  },
   "author": "Levko Kravets <levko.ne@gmail.com>",
   "description": "Database of tartan threadcounts from Weddslist (http://www.weddslist.com/tartans/links.html)",
   "license": {
-    "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/",
+    "title": "Creative Commons Non-Commercial No-Derivatives",
     "type": "CC BY-NC-ND 4.0",
-    "title": "Creative Commons Non-Commercial No-Derivatives"
+    "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/"
   },
   "name": "weddslist-tartan-database",
   "resources": [
@@ -84,6 +86,6 @@
     }
   ],
   "title": "Weddslist Tartan Database",
-  "updated": "2016/11/23 19:36:31",
-  "version": "2.0.2"
+  "updated": "2016/11/30 20:38:29",
+  "version": "2.0.3"
 }
