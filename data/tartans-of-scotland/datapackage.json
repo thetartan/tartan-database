@@ -12,6 +12,7 @@
         "split": ";"
       },
       "trim",
+      "filter",
       "unique",
       {
         "sort": "asc"
@@ -23,7 +24,8 @@
           "description",
           "source"
         ]
-      }
+      },
+      "filter"
     ],
     "id": "origin_id",
     "name": "name",
@@ -95,6 +97,6 @@
     }
   ],
   "title": "Tartans of Scotland Tartan Database",
-  "updated": "2016/11/30 20:38:31",
-  "version": "1.1.2"
+  "updated": "2016/11/30 21:52:58",
+  "version": "1.1.3"
 }

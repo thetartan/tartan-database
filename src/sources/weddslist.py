@@ -145,6 +145,7 @@ class Weddslist(Source):
                 {'join': ';'},
                 {'split': ';'},
                 'trim',
+                'filter',
                 'unique',
                 {'sort': 'asc'},
             ],
@@ -152,6 +153,7 @@ class Weddslist(Source):
 
             'sett': [
                 {'fields': ['palette', 'threadcount']},
+                'filter',
                 {'join': '\n'},
             ],
             'palette': 'palette',

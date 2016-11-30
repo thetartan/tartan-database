@@ -59,11 +59,13 @@ class TartansOfScotland(Source):
                 {'join': ';'},
                 {'split': ';'},
                 'trim',
+                'filter',
                 'unique',
                 {'sort': 'asc'},
             ],
             'description': [
                 {'fields': ['description', 'source']},
+                'filter',
             ],
             'url': 'origin_url',
         }

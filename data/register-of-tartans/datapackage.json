@@ -2,7 +2,6 @@
   "attributes": {
     "STAReference": "sta_ref",
     "STWRReference": "stwr_ref",
-    "alternativeName": "alt_name",
     "category": [
       {
         "fields": "category"
@@ -14,6 +13,7 @@
         "split": ";"
       },
       "trim",
+      "filter",
       "unique",
       {
         "sort": "asc"
@@ -26,9 +26,11 @@
           "comment",
           "notes",
           "restrictions",
+          "source",
           "woven_sample"
         ]
-      }
+      },
+      "filter"
     ],
     "id": "origin_id",
     "name": "name",
@@ -42,6 +44,7 @@
           "threadcount"
         ]
       },
+      "filter",
       {
         "join": "\n"
       }
@@ -169,6 +172,6 @@
     }
   ],
   "title": "Scottish Register of Tartans Tartan Database",
-  "updated": "2016/11/30 20:38:31",
-  "version": "1.0.3"
+  "updated": "2016/11/30 21:52:58",
+  "version": "1.0.4"
 }

@@ -173,16 +173,19 @@ class TartansAuthority(Source):
                 {'join': ';'},
                 {'split': ';'},
                 'trim',
+                'filter',
                 'unique',
                 {'sort': 'asc'},
             ],
             'url': 'origin_url',
             'description': [
                 {'fields': ['notes', 'source']},
+                'filter',
             ],
 
             'sett': [
                 {'fields': ['palette', 'threadcount']},
+                'filter',
                 {'join': '\n'},
             ],
             'palette': 'palette',

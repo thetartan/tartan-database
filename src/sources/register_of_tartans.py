@@ -232,22 +232,24 @@ class RegisterOfTartans(Source):
         'attributes': {
             'id': 'origin_id',
             'name': 'name',
-            'alternativeName': 'alt_name',
             'category': [
                 {'fields': 'category'},
                 {'join': ';'},
                 {'split': ';'},
                 'trim',
+                'filter',
                 'unique',
                 {'sort': 'asc'},
             ],
             'url': 'origin_url',
             'description': [
                 {'fields': ['comment', 'notes', 'restrictions',
-                            'woven_sample']},
+                            'source', 'woven_sample']},
+                'filter',
             ],
             'sett': [
                 {'fields': ['palette', 'threadcount']},
+                'filter',
                 {'join': '\n'},
             ],
             'palette': 'palette',

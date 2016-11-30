@@ -11,6 +11,7 @@
         "split": ";"
       },
       "trim",
+      "filter",
       "unique",
       {
         "sort": "asc"
@@ -25,6 +26,7 @@
           "threadcount"
         ]
       },
+      "filter",
       {
         "join": "\n"
       }
@@ -86,6 +88,6 @@
     }
   ],
   "title": "Weddslist Tartan Database",
-  "updated": "2016/11/30 20:38:29",
-  "version": "2.0.3"
+  "updated": "2016/11/30 21:52:56",
+  "version": "2.0.4"
 }

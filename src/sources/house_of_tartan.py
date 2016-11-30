@@ -95,16 +95,19 @@ class HouseOfTartan(Source):
                 {'join': ';'},
                 {'split': ';'},
                 'trim',
+                'filter',
                 'unique',
                 {'sort': 'asc'},
             ],
             'description': [
                 {'fields': ['overview', 'comment', 'copyright']},
+                'filter',
             ],
             'url': 'origin_url',
 
             'sett': [
                 {'fields': ['palette', 'threadcount']},
+                'filter',
                 {'join': '\n'},
             ],
 

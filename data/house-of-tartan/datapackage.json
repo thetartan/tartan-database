@@ -11,6 +11,7 @@
         "split": ";"
       },
       "trim",
+      "filter",
       "unique",
       {
         "sort": "asc"
@@ -25,7 +26,8 @@
           "comment",
           "copyright"
         ]
-      }
+      },
+      "filter"
     ],
     "id": "origin_id",
     "name": "name",
@@ -38,6 +40,7 @@
           "threadcount"
         ]
       },
+      "filter",
       {
         "join": "\n"
       }
@@ -123,6 +126,6 @@
     }
   ],
   "title": "House of Tartan Tartan Database",
-  "updated": "2016/11/30 20:38:30",
-  "version": "2.0.4"
+  "updated": "2016/11/30 21:52:56",
+  "version": "2.0.5"
 }
