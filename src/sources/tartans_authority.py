@@ -116,10 +116,9 @@ def parse_metadata(data):
     )
     result = dict(result)
 
-    if 'category' in result:
-        result['category'] = utils.parse_category(result['category'])
-        if result['category'] == '':
-            result['category'] = 'Other'
+    result['category'] = utils.parse_category(result.get('category', ''))
+    if result['category'] == '':
+        result['category'] = 'Other'
 
     if 'threadcount' in result:
         result['threadcount'] = normalize_threadcount(

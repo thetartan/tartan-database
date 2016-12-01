@@ -106,6 +106,10 @@ def parse_attributes(data):
         )
     ))
 
+    result['category'] = utils.parse_category(result.get('category', ''))
+    if result['category'] == '':
+        result['category'] = 'Other'
+
     if 'sta_ref' in result:
         if result['sta_ref'].lower() == 'none':
             result['sta_ref'] = ''

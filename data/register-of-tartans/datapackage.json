@@ -62,7 +62,7 @@
   "name": "scottish-register-of-tartans-tartan-database",
   "resources": [
     {
-      "bytes": 5236601,
+      "bytes": 5238097,
       "format": "CSV",
       "headers": true,
       "mediatype": "text/csv",
@@ -172,6 +172,6 @@
     }
   ],
   "title": "Scottish Register of Tartans Tartan Database",
-  "updated": "2016/11/30 21:52:58",
-  "version": "1.0.4"
+  "updated": "2016/12/01 20:47:42",
+  "version": "1.0.5"
 }
