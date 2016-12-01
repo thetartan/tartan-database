@@ -14,19 +14,66 @@ re_words = re.compile('[a-z]{3,}', re.IGNORECASE)
 stop_words = ['the', 'for', 'and']  # Two-letter words ignored by regex
 
 remap_dictionary = {
-    'comemmorative': 'commemorative',
-    'commemmorative': 'commemorative',
-    'com': 'commemorative',
-    'comm': 'commemorative',
-    'commem': 'commemorative',
     'schools': 'school',
     'artefact': 'artifact',
     'assoc': 'association',
     'regiment': 'regimental',
     'univ': 'universal',
     'sports': 'sport',
+    'weaver': 'weavers',
+    'restrticted': 'restricted',
+    'malay': 'malaysian',
+    'indan': 'indian',
+    'germany': 'german',
+    'distrtict': 'district',
+    'caanadian': 'canadian',
+
+    'commemorarive': 'commemorative',
+    'comemmorative': 'commemorative',
+    'commemmorative': 'commemorative',
+    'com': 'commemorative',
+    'comm': 'commemorative',
+    'commem': 'commemorative',
+
+    'coprorate': 'corporate',
+    'corparate': 'corporate',
+    'corpoarate': 'corporate',
+    'corpoate': 'corporate',
+    'corppoate': 'corporate',
+    'corpporate': 'corporate',
+    'corprate': 'corporate',
+
+    'fashin': 'fashion',
+    'dashion': 'fashion',
+
+    'portrair': 'portrait',
+    'portrat': 'portrait',
+
+    'peronal': 'personal',
+    'perposnal': 'personal',
+    'personnal': 'personal',
+
+    'pipeband': 'pipers',
+    'pipes': 'pipers',
+    'pipe': 'pipers',
+
+    'uncategorised': 'other',
+    'unidentfied': 'other',
+    'unidentieid': 'other',
+    'unidentified': 'other',
+    'unidientified': 'other',
+    'unknown': 'other',
+    'unnamed': 'other',
+
+    'misc': 'other',
+    'new': 'other',
+    'non': 'other',
+    'not': 'other',
 }
 
+change_case = {
+    'uae': 'UAE',
+}
 
 def now(fmt='%Y/%m/%d %H:%M:%S'):
     return datetime.now().strftime(fmt)
@@ -82,7 +129,7 @@ def parse_category_from_name(name, delimiter='; '):
         del words[0]
     for word in words:
         if word in allowed_categories:
-            result.append(word.title())
+            result.append(change_case.get(word, word.title()))
         else:
             break
     result.reverse()
@@ -92,7 +139,7 @@ def parse_category_from_name(name, delimiter='; '):
 
 def parse_category(value, delimiter='; '):
     result = map(
-        lambda v: v.title(),
+        lambda v: change_case.get(v, v.title()),
         sorted(list(set(extract_words(value))))
     )
     return delimiter.join(result)

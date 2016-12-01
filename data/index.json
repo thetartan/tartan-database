@@ -10,8 +10,8 @@
     "name": "scottish-tartans-authority-tartan-database",
     "path": "tartans-authority/datapackage.json",
     "title": "Scottish Tartans Authority Tartan Database",
-    "updated": "2016/12/01 20:45:52",
-    "version": "2.0.5"
+    "updated": "2016/12/01 22:56:01",
+    "version": "2.0.6"
   },
   {
     "author": "Levko Kravets <levko.ne@gmail.com>",
@@ -38,8 +38,8 @@
     "name": "scottish-register-of-tartans-tartan-database",
     "path": "register-of-tartans/datapackage.json",
     "title": "Scottish Register of Tartans Tartan Database",
-    "updated": "2016/12/01 20:47:42",
-    "version": "1.0.5"
+    "updated": "2016/12/01 22:56:02",
+    "version": "1.0.6"
   },
   {
     "author": "Levko Kravets <levko.ne@gmail.com>",
