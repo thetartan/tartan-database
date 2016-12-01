@@ -15,6 +15,14 @@ source_classes = {
     'register-of-tartans': RegisterOfTartans,
 }
 
+sources_index = [
+    'tartans-authority',
+    'register-of-tartans',
+    'house-of-tartan',
+    'weddslist',
+    'tartans-of-scotland',
+]
+
 
 def get_cli_args():
     wrapper = os.environ.get('__CLI_TOOL_WRAPPER', None)
@@ -91,7 +99,7 @@ def process_sources(args):
             source.update_datapackage()
 
     if args.index:
-        update_index(source_classes.keys())
+        update_index(sources_index)
 
 
 process_sources(get_cli_args())
