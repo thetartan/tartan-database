@@ -100,7 +100,7 @@ def parse_attributes(data):
                 attr_map[
                     utils.cleanup(key.strip().strip(':'))
                 ] if key != '' else '',
-                utils.cleanup(value.decode('utf-8'))
+                utils.cleanup(value)
             ),
             re_extract_attr.findall(data)
         )
@@ -196,7 +196,7 @@ def parse_threadcount(item, data):
         palette = ''
 
     return {
-        'name': utils.cleanup(name.decode('utf-8')),
+        'name': utils.cleanup(name),
         'threadcount': threadcount,
         'palette': normalize_palette(palette),
     }
@@ -463,6 +463,7 @@ class RegisterOfTartans(Source):
     def extract_items(self, item, context):
         log.message('Parsing ' + str(item) + '...')
         data = self.file_get('meta/' + str(item).zfill(6) + '.html')
+        data = data.decode('utf-8')
 
         result = parse_attributes(data)
 
@@ -475,6 +476,7 @@ class RegisterOfTartans(Source):
             self.host + '/tartanDetails.aspx?ref=' + str(item)
 
         data = self.file_get('threadcount/' + str(item).zfill(6) + '.html')
+        data = data.decode('utf-8')
         # `name` is also parsed here!
         result.update(parse_threadcount(item, data))
 

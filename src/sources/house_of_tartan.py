@@ -157,6 +157,7 @@ class HouseOfTartan(Source):
         log.message('Parsing ' + str(item) + '...')
         result = {}
         data = self.file_get('grabbed/' + str(item).zfill(6) + '.html')
+        data = data.decode('utf-8')
 
         attributes = re_extract_attr.findall(data)
         for attr in attributes:

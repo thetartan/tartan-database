@@ -323,6 +323,7 @@ class TartansAuthority(Source):
         log.message('Parsing ' + str(item) + '...')
         filename = str(item).zfill(6)
         data = self.file_get('grabbed/' + filename + '.html')
+        data = data.decode('utf-8')
 
         result = parse_metadata(data)
 

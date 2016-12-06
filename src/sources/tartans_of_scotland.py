@@ -137,6 +137,7 @@ class TartansOfScotland(Source):
     def extract_items(self, item, context):
         log.message('Parsing ' + str(item) + '...')
         data = self.file_get('grabbed/' + str(item).zfill(6) + '.html')
+        data = data.decode('utf-8')
 
         result = dict(zip(
             ['alt_name', 'description', 'source'],

@@ -179,6 +179,7 @@ class Weddslist(Source):
         log.message('Parsing ' + category['id'] + '...')
         result = []
         data = self.file_get('grabbed/' + category['id'] + '.html')
+        data = data.decode('utf-8')
 
         tartans = re_extract_tartans.findall(data)
         for tartan in tartans:
