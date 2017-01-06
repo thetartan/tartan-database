@@ -22,23 +22,28 @@ class ForceTLSV1Adapter(HTTPAdapter):
 catalogue_index = [chr(i) for i in range(ord('A'), ord('Z') + 1)]
 
 re_form_fields_all = re.compile(
-    '<input\s.*?name="([^"]+)"',
+    '<input\s+.*?name="([^"]+)"',
     re.IGNORECASE | re.DOTALL | re.UNICODE
 )
 
 re_form_fields_filled = re.compile(
-    '<input\s.*?name="([^"]+)"\s.*value="([^"]*)"',
+    '<input\s+.*?name="([^"]+)"\s+.*?value="([^"]*)"',
     re.IGNORECASE | re.DOTALL | re.UNICODE
 )
 
 re_captcha_image = re.compile(
-    '<img\s+.*id="SpamPicture"\s.*src="([^"]+)"',
+    '<img\s+.*?id="SpamPicture"\s+.*?src="([^"]+)"',
     re.IGNORECASE | re.DOTALL | re.UNICODE
 )
 
 re_registration_id = re.compile(
     '/cust_AddNew4\.aspx\?reference=(.+)$',
     re.IGNORECASE | re.DOTALL
+)
+
+re_extract_name = re.compile(
+    '<span\s+.*?id="lblHeader">Tartan\s+Details\s*-(.+?)</span>',
+    re.IGNORECASE | re.DOTALL | re.UNICODE
 )
 
 re_extract_attr = re.compile(
@@ -122,6 +127,10 @@ def parse_attributes(data):
         if result['comment'].lower() == 'not specified':
             result['comment'] = ''
 
+    name = re_extract_name.findall(data)
+    if len(name) == 1:
+        result['name'] = name[0].strip()
+
     return result
 
 
@@ -173,6 +182,12 @@ def parse_threadcount(item, data):
         re_extract_threadcount.findall(data)
     )).get(str(item), '')
 
+    if len(result) <= 1:
+        return {
+            'threadcount': '',
+            'palette': '',
+        }
+
     name = result[0]
     result = result[1]
 
@@ -180,8 +195,6 @@ def parse_threadcount(item, data):
         bool,
         re.sub('<br>', '%%', result, flags=re.IGNORECASE).split('%%')
     )
-    if len(result) <= 1:
-        return {}
 
     # type can be:
     # - reflective

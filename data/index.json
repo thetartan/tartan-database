@@ -24,8 +24,8 @@
     "name": "scottish-register-of-tartans-tartan-database",
     "path": "register-of-tartans/datapackage.json",
     "title": "Scottish Register of Tartans Tartan Database",
-    "updated": "2016/12/01 22:56:02",
-    "version": "1.0.6"
+    "updated": "2017/01/06 21:45:04",
+    "version": "1.0.7"
   },
   {
     "author": "Levko Kravets <levko.ne@gmail.com>",
