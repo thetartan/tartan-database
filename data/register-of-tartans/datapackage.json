@@ -1,57 +1,4 @@
 {
-  "attributes": {
-    "STAReference": "sta_ref",
-    "STWRReference": "stwr_ref",
-    "category": [
-      {
-        "fields": "category"
-      },
-      {
-        "join": ";"
-      },
-      {
-        "split": ";"
-      },
-      "trim",
-      "filter",
-      "unique",
-      {
-        "sort": "asc"
-      }
-    ],
-    "date": "date",
-    "description": [
-      {
-        "fields": [
-          "comment",
-          "notes",
-          "restrictions",
-          "source",
-          "woven_sample"
-        ]
-      },
-      "filter"
-    ],
-    "id": "origin_id",
-    "name": "name",
-    "palette": "palette",
-    "registrantDetails": "registrant_details",
-    "registrationDate": "registration_date",
-    "sett": [
-      {
-        "fields": [
-          "palette",
-          "threadcount"
-        ]
-      },
-      "filter",
-      {
-        "join": "\n"
-      }
-    ],
-    "threadcount": "threadcount",
-    "url": "origin_url"
-  },
   "author": "Levko Kravets <levko.ne@gmail.com>",
   "description": "Database of tartan threadcounts from Scottish Register of Tartans (https://www.tartanregister.gov.uk/)",
   "license": {
@@ -62,6 +9,59 @@
   "name": "scottish-register-of-tartans-tartan-database",
   "resources": [
     {
+      "attributes": {
+        "STAReference": "sta_ref",
+        "STWRReference": "stwr_ref",
+        "category": [
+          {
+            "fields": "category"
+          },
+          {
+            "join": ";"
+          },
+          {
+            "split": ";"
+          },
+          "trim",
+          "filter",
+          "unique",
+          {
+            "sort": "asc"
+          }
+        ],
+        "date": "date",
+        "description": [
+          {
+            "fields": [
+              "comment",
+              "notes",
+              "restrictions",
+              "source",
+              "woven_sample"
+            ]
+          },
+          "filter"
+        ],
+        "id": "origin_id",
+        "name": "name",
+        "palette": "palette",
+        "registrantDetails": "registrant_details",
+        "registrationDate": "registration_date",
+        "sett": [
+          {
+            "fields": [
+              "palette",
+              "threadcount"
+            ]
+          },
+          "filter",
+          {
+            "join": "\n"
+          }
+        ],
+        "threadcount": "threadcount",
+        "url": "origin_url"
+      },
       "bytes": 5254984,
       "format": "CSV",
       "headers": true,
@@ -172,6 +172,6 @@
     }
   ],
   "title": "Scottish Register of Tartans Tartan Database",
-  "updated": "2017/01/06 21:45:04",
-  "version": "1.0.7"
+  "updated": "2017/01/08 12:18:28",
+  "version": "1.0.8"
 }

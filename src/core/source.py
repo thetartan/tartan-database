@@ -29,6 +29,9 @@ class Source(object):
     # Additional attributes to add to datapackage file
     datapackageAdditionalAttributes = {}
 
+    # Additional attributes to add to resource descriptor
+    resourceAdditionalAttributes = {}
+
     url = None
 
     def __init__(self):
@@ -259,6 +262,11 @@ class Source(object):
             ])
             resource['path'] = os.path.relpath(resource['path'], prefix + '/')
             resource['headers'] = True
+
+            if isinstance(self.resourceAdditionalAttributes, dict):
+                resource.update(self.resourceAdditionalAttributes)
+
+
             package['resources'] = [resource]
 
             self.file_put('datapackage.json', json.dumps(

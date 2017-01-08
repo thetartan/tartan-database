@@ -1,53 +1,4 @@
 {
-  "attributes": {
-    "category": [
-      {
-        "fields": "category"
-      },
-      {
-        "join": ";"
-      },
-      {
-        "split": ";"
-      },
-      "trim",
-      "filter",
-      "unique",
-      {
-        "sort": "asc"
-      }
-    ],
-    "comment": "comment",
-    "copyright": "copyright",
-    "description": [
-      {
-        "fields": [
-          "overview",
-          "comment",
-          "copyright"
-        ]
-      },
-      "filter"
-    ],
-    "id": "origin_id",
-    "name": "name",
-    "overview": "overview",
-    "palette": "palette",
-    "sett": [
-      {
-        "fields": [
-          "palette",
-          "threadcount"
-        ]
-      },
-      "filter",
-      {
-        "join": "\n"
-      }
-    ],
-    "threadcount": "threadcount",
-    "url": "origin_url"
-  },
   "author": "Levko Kravets <levko.ne@gmail.com>",
   "description": "Database of tartan threadcounts from House of Tartan (http://www.house-of-tartan.scotland.net/)",
   "license": {
@@ -58,7 +9,56 @@
   "name": "house-of-tartan-tartan-database",
   "resources": [
     {
-      "bytes": 1310651,
+      "attributes": {
+        "category": [
+          {
+            "fields": "category"
+          },
+          {
+            "join": ";"
+          },
+          {
+            "split": ";"
+          },
+          "trim",
+          "filter",
+          "unique",
+          {
+            "sort": "asc"
+          }
+        ],
+        "comment": "comment",
+        "copyright": "copyright",
+        "description": [
+          {
+            "fields": [
+              "overview",
+              "comment",
+              "copyright"
+            ]
+          },
+          "filter"
+        ],
+        "id": "origin_id",
+        "name": "name",
+        "overview": "overview",
+        "palette": "palette",
+        "sett": [
+          {
+            "fields": [
+              "palette",
+              "threadcount"
+            ]
+          },
+          "filter",
+          {
+            "join": "\n"
+          }
+        ],
+        "threadcount": "threadcount",
+        "url": "origin_url"
+      },
+      "bytes": 1359868,
       "format": "CSV",
       "headers": true,
       "mediatype": "text/csv",
@@ -126,6 +126,6 @@
     }
   ],
   "title": "House of Tartan Tartan Database",
-  "updated": "2016/11/30 21:52:56",
-  "version": "2.0.5"
+  "updated": "2017/01/08 12:18:26",
+  "version": "2.0.6"
 }

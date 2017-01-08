@@ -1,52 +1,4 @@
 {
-  "attributes": {
-    "ITINumber": "iti_number",
-    "alternativeName": "alt_name",
-    "category": [
-      {
-        "fields": "category"
-      },
-      {
-        "join": ";"
-      },
-      {
-        "split": ";"
-      },
-      "trim",
-      "filter",
-      "unique",
-      {
-        "sort": "asc"
-      }
-    ],
-    "date": "date",
-    "description": [
-      {
-        "fields": [
-          "notes",
-          "source"
-        ]
-      },
-      "filter"
-    ],
-    "id": "origin_id",
-    "name": "name",
-    "palette": "palette",
-    "sett": [
-      {
-        "fields": [
-          "palette",
-          "threadcount"
-        ]
-      },
-      "filter",
-      {
-        "join": "\n"
-      }
-    ],
-    "threadcount": "threadcount",
-    "url": "origin_url"
-  },
   "author": "Levko Kravets <levko.ne@gmail.com>",
   "description": "Database of tartan threadcounts from Scottish Tartans Authority (http://www.tartansauthority.com/)",
   "license": {
@@ -57,7 +9,55 @@
   "name": "scottish-tartans-authority-tartan-database",
   "resources": [
     {
-      "bytes": 3482160,
+      "attributes": {
+        "ITINumber": "iti_number",
+        "alternativeName": "alt_name",
+        "category": [
+          {
+            "fields": "category"
+          },
+          {
+            "join": ";"
+          },
+          {
+            "split": ";"
+          },
+          "trim",
+          "filter",
+          "unique",
+          {
+            "sort": "asc"
+          }
+        ],
+        "date": "date",
+        "description": [
+          {
+            "fields": [
+              "notes",
+              "source"
+            ]
+          },
+          "filter"
+        ],
+        "id": "origin_id",
+        "name": "name",
+        "palette": "palette",
+        "sett": [
+          {
+            "fields": [
+              "palette",
+              "threadcount"
+            ]
+          },
+          "filter",
+          {
+            "join": "\n"
+          }
+        ],
+        "threadcount": "threadcount",
+        "url": "origin_url"
+      },
+      "bytes": 3481737,
       "format": "CSV",
       "headers": true,
       "mediatype": "text/csv",
@@ -137,6 +137,6 @@
     }
   ],
   "title": "Scottish Tartans Authority Tartan Database",
-  "updated": "2016/12/01 22:56:01",
-  "version": "2.0.6"
+  "updated": "2017/01/08 12:18:27",
+  "version": "2.0.7"
 }

@@ -137,7 +137,7 @@ class Weddslist(Source):
         ('origin_url', 'Origin URL', 'string'),
     ]
 
-    datapackageAdditionalAttributes = {
+    resourceAdditionalAttributes = {
         'attributes': {
             'name': 'name',
             'category': [

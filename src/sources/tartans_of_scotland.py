@@ -49,7 +49,7 @@ class TartansOfScotland(Source):
         ('origin_url', 'Origin URL', 'string'),
     ]
 
-    datapackageAdditionalAttributes = {
+    resourceAdditionalAttributes = {
         'attributes': {
             'id': 'origin_id',
             'name': 'name',
