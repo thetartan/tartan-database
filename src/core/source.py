@@ -263,9 +263,13 @@ class Source(object):
             resource['path'] = os.path.relpath(resource['path'], prefix + '/')
             resource['headers'] = True
 
+            items = json.loads(self.file_get('items.json'))
+            count_of_records = len(items.get('success', []))
+            if count_of_records > 0:
+                resource['countOfRecords'] = count_of_records
+
             if isinstance(self.resourceAdditionalAttributes, dict):
                 resource.update(self.resourceAdditionalAttributes)
-
 
             package['resources'] = [resource]
 

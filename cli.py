@@ -53,10 +53,6 @@ def get_cli_args():
         help='update datapackage.json file(s).'
     )
     parser.add_argument(
-        '-i', '--index', dest='index', action='store_true',
-        help='update dataset index (index.json file).'
-    )
-    parser.add_argument(
         'sources', action='store', nargs='*', default='',
         choices=sorted(source_classes.keys() + ['']),
         help='source names' if wrapper is None else argparse.SUPPRESS
@@ -72,21 +68,6 @@ def get_cli_args():
     return args
 
 
-def update_index(sources):
-    index = []
-    for source in sources:
-        with open('data/' + source + '/datapackage.json', 'r') as f:
-            datapackage = json.load(f)
-        # Remove some props
-        datapackage.pop('resources', None)
-        datapackage.pop('attributes', None)
-        datapackage['path'] = source + '/datapackage.json'
-        index.append(datapackage)
-
-    with open('data/index.json', 'w') as f:
-        json.dump(index, f, sort_keys=True, indent=2, separators=(',', ': '))
-
-
 def process_sources(args):
     for source in args.sources:
         source = source_classes[source]()
@@ -97,9 +78,6 @@ def process_sources(args):
             source.parse()
         if args.datapackage:
             source.update_datapackage()
-
-    if args.index:
-        update_index(sources_index)
 
 
 process_sources(get_cli_args())

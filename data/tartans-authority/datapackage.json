@@ -58,6 +58,7 @@
         "url": "origin_url"
       },
       "bytes": 3481737,
+      "countOfRecords": 5999,
       "format": "CSV",
       "headers": true,
       "mediatype": "text/csv",
@@ -137,6 +138,6 @@
     }
   ],
   "title": "Scottish Tartans Authority Tartan Database",
-  "updated": "2017/01/08 12:18:27",
-  "version": "2.0.7"
+  "updated": "2017/01/10 23:12:48",
+  "version": "2.0.8"
 }

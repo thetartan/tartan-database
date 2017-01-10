@@ -59,6 +59,7 @@
         "url": "origin_url"
       },
       "bytes": 1359868,
+      "countOfRecords": 2152,
       "format": "CSV",
       "headers": true,
       "mediatype": "text/csv",
@@ -126,6 +127,6 @@
     }
   ],
   "title": "House of Tartan Tartan Database",
-  "updated": "2017/01/08 12:18:26",
-  "version": "2.0.6"
+  "updated": "2017/01/10 23:12:47",
+  "version": "2.0.7"
 }
