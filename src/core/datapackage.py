@@ -19,6 +19,15 @@ def get_csv_headers(filename):
     return map(lambda x: (x, title_to_name(x)), row)
 
 
+def get_csv_records_count(filename):
+    with open(filename) as f:
+        reader = csv.reader(
+            f, delimiter=',', quotechar='"', quoting=csv.QUOTE_ALL,
+            skipinitialspace=True
+        )
+        return len(list(reader))
+
+
 def title_to_name(value):
     value = re.sub('[^a-z0-9-_]', '-', value.strip().lower())
     value = re.sub('[-]+', '-', value)
@@ -49,6 +58,7 @@ def create_resource(datafile, **kwargs):
         'format': 'CSV',
         'mediatype': 'text/csv',
         'bytes': os.stat(datafile).st_size,
+        'countOfRecords': get_csv_records_count(datafile),
         'schema': {
             'fields': map(
                 lambda (index, row): {

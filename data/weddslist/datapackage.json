@@ -45,7 +45,7 @@
         "url": "origin_url"
       },
       "bytes": 647641,
-      "countOfRecords": 5,
+      "countOfRecords": 3397,
       "format": "CSV",
       "headers": true,
       "mediatype": "text/csv",
@@ -89,6 +89,6 @@
     }
   ],
   "title": "Weddslist Tartan Database",
-  "updated": "2017/01/10 23:12:47",
-  "version": "2.0.6"
+  "updated": "2017/01/10 23:18:53",
+  "version": "2.0.7"
 }
